@@ -1,0 +1,2384 @@
+<!DOCTYPE html>
+<html lang="en" data-palette="electric" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TalkLab 2.0 — The English Conversation Club You Actually Want to Join</title>
+  <meta name="description" content="TalkLab is Tripoli's modern, gamified English conversation club for young minds. Interactive debates, taboo arcade, real-time 30 LYD seat booking, and chill vibes.">
+  <link rel="icon" type="image/png" href="assets/logo-cream.png">
+  
+  <!-- Google Fonts: Cairo (Arabic) + Outfit + Plus Jakarta Sans + Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap">
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box !important;
+    }
+    html, body {
+      overflow-x: hidden !important;
+      overflow-x: clip !important;
+      max-width: 100vw !important;
+      width: 100% !important;
+      position: relative !important;
+    }
+    @media (max-width: 768px) {
+      body, html {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      .container {
+        width: 100% !important;
+        max-width: 100vw !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+      section,
+      main,
+      header,
+      footer,
+      .section,
+      .hero-section,
+      .talklab-spotlight-section {
+        width: 100% !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+      }
+      .marquee-ribbon {
+        width: 100% !important;
+        max-width: 100vw !important;
+        overflow: hidden !important;
+        overflow-x: clip !important;
+        contain: paint !important;
+        position: relative !important;
+        box-sizing: border-box !important;
+      }
+      .marquee-track {
+        contain: layout !important;
+      }
+    }
+    @media (max-width: 360px) {
+      .container {
+        padding-left: 0.65rem !important;
+        padding-right: 0.65rem !important;
+      }
+    }
+    /* Clean English typography & smooth anchor scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+    .section,
+    #slot-machine,
+    #arcade,
+    #vibe-quiz,
+    #hot-seat,
+    #slang-lab,
+    #venue,
+    #dashboard,
+    #sessions {
+      scroll-margin-top: 96px;
+    }
+    .ar-text,
+    .ar-block {
+      display: none !important;
+    }
+    .en-text {
+      display: inline !important;
+    }
+    .en-block {
+      display: block !important;
+    }
+    .ar-clean {
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Arial, sans-serif !important;
+      font-style: normal;
+      font-weight: 800;
+      letter-spacing: 0 !important;
+      direction: rtl;
+      display: inline-block;
+    }
+    /* Header Brand Styling */
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 0.95rem;
+      text-decoration: none;
+    }
+    .brand-logo-box {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      overflow: hidden;
+      background-color: var(--logo-box-bg, #FFF8EE);
+      border: 3px solid var(--logo-box-border, var(--border-color));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 3.5px 3.5px 0px var(--shadow-color);
+      transition: transform var(--transition-bounce), box-shadow var(--transition-bounce), background-color var(--transition-fast), border-color var(--transition-fast);
+      padding: 4px;
+      flex-shrink: 0;
+    }
+    .brand-link:hover .brand-logo-box {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 5.5px 5.5px 0px var(--shadow-color);
+    }
+    .brand-name-text {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 900;
+      color: var(--text-main);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .brand-country-pill {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 900;
+      padding: 0.18rem 0.5rem;
+      background: var(--color-accent-gold);
+      color: var(--text-main);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-full);
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+    }
+    .brand-tag-text {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--color-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.15rem;
+      display: block;
+    }
+    @media (max-width: 1280px) {
+      .site-header nav,
+      .site-nav {
+        display: none !important;
+      }
+    }
+    @media (max-width: 680px) {
+      .header-book-cta {
+        display: none !important;
+      }
+    }
+    @media (max-width: 680px) {
+      .site-header .header-inner {
+        height: 58px !important;
+        padding: 0 0.5rem !important;
+        gap: 0.35rem !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        box-sizing: border-box !important;
+      }
+      .site-header nav,
+      .site-nav {
+        display: none !important;
+      }
+      .brand-link {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
+        flex-shrink: 0 !important;
+        min-width: 0 !important;
+      }
+      .brand-logo-box {
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 9px !important;
+        padding: 2px !important;
+        box-shadow: 2px 2px 0px var(--shadow-color) !important;
+        flex-shrink: 0 !important;
+      }
+      .brand-name-text {
+        font-size: 1.2rem !important;
+      }
+      .brand-country-pill,
+      .brand-tag-text {
+        display: none !important;
+      }
+      .header-actions-group {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 0.35rem !important;
+        flex-shrink: 0 !important;
+      }
+      .theme-switcher-bar {
+        display: none !important;
+      }
+      .mobile-theme-cycle-btn {
+        display: inline-flex !important;
+        height: 34px !important;
+        padding: 0.25rem 0.5rem !important;
+        font-size: 0.76rem !important;
+      }
+      .unified-audio-btn,
+      .sound-toggle-btn {
+        display: inline-flex !important;
+        height: 34px !important;
+        width: 34px !important;
+        padding: 0 !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: var(--radius-sm) !important;
+      }
+      .unified-audio-btn .audio-btn-label,
+      .sound-toggle-btn .audio-btn-label {
+        display: none !important;
+      }
+      .header-actions-group .lofi-nav-btn,
+      .header-actions-group .pop-btn-primary,
+      .header-actions-group [data-action="open-booking"] {
+        display: none !important;
+      }
+      .mobile-nav-toggle {
+        display: flex !important;
+        width: 34px !important;
+        height: 34px !important;
+        padding: 0 !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: var(--radius-sm);
+        flex-shrink: 0 !important;
+      }
+      /* Hero Responsive Adjustments */
+      .hero-section {
+        overflow: hidden !important;
+        max-width: 100vw !important;
+        padding: 1.75rem 0 2.5rem 0 !important;
+      }
+      .hero-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+      }
+      .hero-grid > * {
+        min-width: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      .hero-pill-row {
+        display: flex !important;
+        gap: 0.35rem !important;
+        flex-wrap: wrap !important;
+        margin-bottom: 0.75rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      .hero-badge-break {
+        display: block !important;
+        flex-basis: 100% !important;
+        height: 0 !important;
+        margin: 0 !important;
+      }
+      .mobile-only-br {
+        display: block !important;
+      }
+      .hero-pill-row .pop-badge {
+        font-size: 0.72rem !important;
+        padding: 0.28rem 0.55rem !important;
+        margin-bottom: 0 !important;
+      }
+      .hero-title {
+        font-size: clamp(1.65rem, 6.8vw, 2.15rem) !important;
+        line-height: 1.15 !important;
+        margin-bottom: 0.85rem !important;
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
+      }
+      .hero-subtitle {
+        font-size: 0.95rem !important;
+        line-height: 1.5 !important;
+        margin-bottom: 1.15rem !important;
+      }
+      .hero-cta-group {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 0.65rem !important;
+        margin-bottom: 1.25rem !important;
+      }
+      .hero-cta-group .pop-btn {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        justify-content: center !important;
+        font-size: 0.95rem !important;
+        padding: 0.8rem 1rem !important;
+      }
+      .emoji-reaction-bar {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        flex-wrap: nowrap !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 0.35rem 0.6rem !important;
+        gap: 0.2rem !important;
+      }
+      .emoji-bar-label {
+        font-size: 0.68rem !important;
+        white-space: nowrap !important;
+        letter-spacing: 0.02em !important;
+      }
+      .emoji-trigger-btn {
+        font-size: 1.15rem !important;
+        padding: 0 0.05rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      /* Hero Live Session Card Mobile Perfection */
+      .hero-booking-card {
+        padding: 1.15rem 0.85rem !important;
+        box-shadow: 4px 4px 0px var(--shadow-color) !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      .hero-card-header {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+        align-items: flex-start !important;
+      }
+      .hero-card-header h3 {
+        font-size: 1.35rem !important;
+      }
+      .hero-price-tag {
+        font-size: 1.8rem !important;
+      }
+      .hero-price-tag small {
+        font-size: 0.82rem !important;
+      }
+      .hero-session-box {
+        padding: 0.85rem 0.75rem !important;
+        margin-bottom: 1rem !important;
+      }
+      .hero-session-name {
+        font-size: 1.05rem !important;
+      }
+      .hero-session-hours {
+        font-size: 0.78rem !important;
+        word-break: break-word !important;
+        line-height: 1.4 !important;
+      }
+      .countdown-box-grid {
+        gap: 0.25rem !important;
+        margin-bottom: 1rem !important;
+      }
+      .countdown-cell {
+        padding: 0.35rem 0.15rem !important;
+        border-radius: 6px !important;
+      }
+      .countdown-val {
+        font-size: 1.15rem !important;
+      }
+      .countdown-lbl {
+        font-size: 0.55rem !important;
+        letter-spacing: 0 !important;
+      }
+
+      /* Mid-Page Spotlight & Partnership Banners */
+      .talklab-spotlight-card {
+        grid-template-columns: 1fr !important;
+        padding: 1.5rem 1rem !important;
+        gap: 1.5rem !important;
+        text-align: center !important;
+      }
+      .talklab-spotlight-title {
+        font-size: 1.75rem !important;
+      }
+      .talklab-spotlight-actions {
+        flex-direction: column !important;
+        width: 100% !important;
+      }
+      .talklab-spotlight-actions .pop-btn {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+      .partnership-banner {
+        flex-direction: column !important;
+        padding: 1.5rem 1rem !important;
+        gap: 1.25rem !important;
+        text-align: center !important;
+      }
+      .partnership-info {
+        min-width: 0 !important;
+        width: 100% !important;
+      }
+      .partnership-actions {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+
+      /* Floating Lo-Fi Audio Player on Mobile */
+      .lofi-floating-player {
+        left: 0.5rem !important;
+        right: 0.5rem !important;
+        bottom: 0.5rem !important;
+        max-width: calc(100vw - 1rem) !important;
+      }
+      .lofi-player-inner {
+        min-width: 0 !important;
+        width: 100% !important;
+        padding: 0.4rem 0.65rem !important;
+        box-shadow: 4px 4px 0px var(--shadow-color) !important;
+        gap: 0.4rem !important;
+      }
+      .lofi-vinyl {
+        width: 34px !important;
+        height: 34px !important;
+      }
+      .lofi-track-title {
+        font-size: 0.76rem !important;
+      }
+      .lofi-track-sub {
+        font-size: 0.62rem !important;
+      }
+      .lofi-vol-wrap,
+      .lofi-mood-select-wrap {
+        display: none !important;
+      }
+    }
+    @media (max-width: 360px) {
+      .site-header .header-inner {
+        height: 56px !important;
+        padding: 0 0.25rem !important;
+        gap: 0.25rem !important;
+      }
+      .brand-logo-box {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 8px !important;
+      }
+      .brand-name-text {
+        font-size: 1.12rem !important;
+      }
+      .mobile-theme-cycle-btn {
+        height: 32px !important;
+        padding: 0.2rem 0.42rem !important;
+        font-size: 0.72rem !important;
+      }
+      .unified-audio-btn,
+      .sound-toggle-btn {
+        width: 32px !important;
+        height: 32px !important;
+      }
+      .mobile-nav-toggle {
+        width: 32px !important;
+        height: 32px !important;
+      }
+      .emoji-reaction-bar {
+        padding: 0.3rem 0.4rem !important;
+        gap: 0.12rem !important;
+      }
+      .emoji-bar-label {
+        font-size: 0.62rem !important;
+      }
+      .emoji-trigger-btn {
+        font-size: 1.05rem !important;
+      }
+    }
+
+    /* Mid-Page TalkLab Brand & Mission Spotlight */
+    .talklab-spotlight-section {
+      padding: 4.5rem 0;
+      background-color: var(--bg-surface-elevated);
+      border-top: var(--border-width) solid var(--border-color);
+      border-bottom: var(--border-width) solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+    }
+    .talklab-spotlight-card {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 3rem;
+      align-items: center;
+      background: var(--bg-surface);
+      border: var(--border-width) solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: 8px 8px 0px var(--shadow-color);
+      padding: 3rem 2.5rem;
+      position: relative;
+    }
+    @media (max-width: 860px) {
+      .talklab-spotlight-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 2rem 1.5rem;
+        gap: 2rem;
+      }
+      .talklab-spotlight-left {
+        margin: 0 auto;
+      }
+      .talklab-spotlight-features {
+        justify-content: center;
+      }
+      .talklab-spotlight-actions {
+        justify-content: center;
+      }
+    }
+    .talklab-spotlight-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .talklab-spotlight-logo-box {
+      width: 140px;
+      height: 140px;
+      border-radius: 30px;
+      border: 3.5px solid var(--logo-box-border, var(--border-color));
+      box-shadow: 6px 6px 0px var(--shadow-color);
+      background: var(--logo-box-bg, #FFF8EE);
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.15rem;
+      transition: transform var(--transition-bounce), box-shadow var(--transition-bounce), background-color var(--transition-fast), border-color var(--transition-fast);
+      animation: talklabFloat 4.5s ease-in-out infinite;
+    }
+    @keyframes talklabFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-7px) rotate(-1.5deg); }
+    }
+    .talklab-spotlight-logo-box:hover {
+      transform: scale(1.08) rotate(-3deg);
+      box-shadow: 9px 9px 0px var(--shadow-color);
+    }
+    .talklab-spotlight-logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 20px;
+    }
+    .talklab-spotlight-seal {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: var(--text-main);
+      background: var(--color-accent-gold);
+      border: 2px solid var(--border-color);
+      box-shadow: 2.5px 2.5px 0px var(--shadow-color);
+      border-radius: var(--radius-full);
+      padding: 0.35rem 0.85rem;
+      letter-spacing: 0.05em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .talklab-spotlight-badge-label {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-primary);
+      margin-bottom: 0.4rem;
+      display: inline-block;
+    }
+    .talklab-spotlight-title {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 900;
+      line-height: 1.15;
+      color: var(--text-main);
+      letter-spacing: -0.035em;
+      margin-bottom: 0.85rem;
+    }
+    .talklab-spotlight-desc {
+      font-size: 1.08rem;
+      line-height: 1.65;
+      color: var(--text-muted);
+      margin-bottom: 1.75rem;
+    }
+    .talklab-spotlight-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-bottom: 2rem;
+    }
+    .talklab-feature-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--bg-surface-elevated);
+      border: 2px solid var(--border-color);
+      box-shadow: 3px 3px 0px var(--shadow-color);
+      border-radius: var(--radius-md);
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .talklab-spotlight-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    /* Premium Hosted-By Partnership Banner */
+    .partnership-banner {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      background: var(--bg-surface);
+      border: var(--border-width) solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2rem 2.5rem;
+      box-shadow: 6px 6px 0px var(--shadow-color);
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+    .partnership-logo-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    .partnership-logo-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--border-color);
+      box-shadow: 4px 4px 0px var(--shadow-color);
+    }
+    .partnership-logo-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    .partnership-x {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--text-faint);
+      flex-shrink: 0;
+    }
+    .partnership-talklab-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    .partnership-talklab-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      border: 3px solid var(--logo-box-border, var(--border-color));
+      box-shadow: 4px 4px 0px var(--shadow-color);
+      object-fit: contain;
+      background: var(--logo-box-bg, #FFF8EE);
+      padding: 8px;
+      transition: background-color var(--transition-fast), border-color var(--transition-fast);
+    }
+    .partnership-info {
+      flex: 1;
+      min-width: 200px;
+    }
+    .partnership-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-accent-coral);
+      margin-bottom: 0.4rem;
+    }
+    .partnership-title {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: var(--text-main);
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+    .partnership-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+    .partnership-links {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: 0.85rem;
+    }
+    /* Photo grid for venue */
+    .venue-photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+    }
+    .venue-photo-grid .venue-photo-main { grid-column: 1 / 3; }
+    @media (max-width: 680px) {
+      .venue-photo-grid { grid-template-columns: 1fr; }
+      .venue-photo-grid .venue-photo-main { grid-column: 1; }
+    }
+    .venue-photo-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: var(--border-width) solid var(--border-color);
+      box-shadow: var(--shadow-pop);
+      position: relative;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .venue-photo-card:hover { transform: translate(-3px,-3px); box-shadow: var(--shadow-pop-hover); }
+    .venue-photo-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .venue-photo-card.tall img { height: 300px; }
+    .venue-photo-card.full img { height: 340px; }
+    .venue-photo-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.75rem 1rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    /* Google Maps embed */
+    .gmap-embed-wrap {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: var(--border-width) solid var(--border-color);
+      box-shadow: 6px 6px 0px var(--shadow-color);
+      margin-top: 2rem;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .gmap-embed-wrap:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 8px 8px 0px var(--shadow-color);
+    }
+    .gmap-embed-wrap iframe {
+      width: 100%;
+      height: 340px;
+      display: block;
+      border: 0;
+    }
+    /* Footer logo big */
+    .footer-brand-logo-big {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--logo-box-bg, #FFF8EE);
+      border: var(--border-width) solid var(--logo-box-border, var(--border-color));
+      box-shadow: 4px 4px 0px var(--shadow-color);
+      padding: 6px;
+      flex-shrink: 0;
+      transition: transform var(--transition-bounce), background-color var(--transition-fast), border-color var(--transition-fast);
+    }
+    .footer-brand-logo-big:hover { transform: rotate(-5deg) scale(1.07); }
+    .footer-brand-logo-big img { width: 100%; height: 100%; object-fit: contain; }
+    /* Watermark logo in hero section */
+    .hero-logo-watermark {
+      position: absolute;
+      top: 50%;
+      right: -20px;
+      transform: translateY(-50%);
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 1;
+      max-width: 50vw;
+      overflow: hidden;
+    }
+    .hero-logo-watermark img {
+      width: 400px;
+      max-width: 100%;
+      display: block;
+    }
+    @media (max-width: 768px) {
+      .hero-logo-watermark {
+        display: none !important;
+      }
+    }
+    /* Arabic hero bilingual */
+    .hero-arabic-subtitle {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      direction: rtl;
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Notification Marquee / Ticker -->
+  <div class="marquee-ribbon" style="padding: 0.55rem 0; font-size: 0.9rem;" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-text-item">🔥 NEXT SESSION: SATURDAY AT 12:00 PM <span class="marquee-star">✦</span></span>
+      <span class="marquee-text-item">FEE: 30 LYD FLAT <span class="marquee-star">✦</span></span>
+      <span class="marquee-text-item">25 SEATS PER IMMERSION TABLE <span class="marquee-star">✦</span></span>
+      <span class="marquee-text-item">HOSTED AT مركز سفراء العلم (PEOPLE &amp; SPACES) TRIPOLI <span class="marquee-star">✦</span></span>
+      <span class="marquee-text-item">IN-HOUSE CAFE MEMBER DISCOUNT <span class="marquee-star">✦</span></span>
+      <span class="marquee-text-item">TUESDAY TWILIGHT AT 4:00 PM <span class="marquee-star">✦</span></span>
+      <span class="marquee-text-item">ZERO BORING GRAMMAR HOMEWORK <span class="marquee-star">✦</span></span>
+      <span class="marquee-text-item">🔥 NEXT SESSION: SATURDAY AT 12:00 PM <span class="marquee-star">✦</span></span>
+      <span class="marquee-text-item">FEE: 30 LYD FLAT <span class="marquee-star">✦</span></span>
+      <span class="marquee-text-item">25 SEATS PER IMMERSION TABLE <span class="marquee-star">✦</span></span>
+      <span class="marquee-text-item">HOSTED AT مركز سفراء العلم (PEOPLE &amp; SPACES) TRIPOLI <span class="marquee-star">✦</span></span>
+      <span class="marquee-text-item">IN-HOUSE CAFE MEMBER DISCOUNT <span class="marquee-star">✦</span></span>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <!-- Brand Logo — Distinct, single prominent anchor -->
+      <a href="#" class="brand-link" id="brand-home-link" title="TalkLab — Tripoli English Conversation Club">
+        <div class="brand-logo-box" id="header-logo-container">
+          <img src="assets/logo-cream.png" alt="TalkLab Logo" class="brand-logo-img" id="navbar-brand-logo">
+        </div>
+        <div style="display:flex; flex-direction:column;">
+          <div style="display:flex; align-items:center; gap:0.45rem;">
+            <span class="brand-name-text">TalkLab</span>
+            <span class="brand-country-pill">🇱🇾 TRIPOLI</span>
+          </div>
+          <span class="brand-tag-text">
+            <span class="en-text">English Conversation Club</span>
+            <span class="ar-text">نادي المحادثة الإنجليزية</span>
+          </span>
+        </div>
+      </a>
+
+      <!-- Super Neat Desktop Nav Pills -->
+      <nav class="site-nav" aria-label="Main Navigation">
+        <div class="nav-pill-group">
+          <a href="#vibe-quiz" class="nav-pill-link"><span class="nav-pill-icon">🎯</span><span class="en-text">Vibe Quiz</span><span class="ar-text">اختبار الشخصية</span></a>
+          <a href="#slot-machine" class="nav-pill-link"><span class="nav-pill-icon">🎰</span><span class="en-text">Slot Machine</span><span class="ar-text">آلة الموضوعات</span></a>
+          <a href="#arcade" class="nav-pill-link"><span class="nav-pill-icon">🎮</span><span class="en-text">Taboo Arcade</span><span class="ar-text">تابو</span></a>
+          <a href="#hot-seat" class="nav-pill-link"><span class="nav-pill-icon">🔥</span><span class="en-text">Hot Seat</span><span class="ar-text">الكرسي الساخن</span></a>
+          <a href="#venue" class="nav-pill-link"><span class="nav-pill-icon">📍</span><span class="en-text">The Space</span><span class="ar-text">المكان</span></a>
+        </div>
+      </nav>
+
+      <!-- Action Buttons & Controls (Normal Theme Switcher, Language Toggle, Merged Audio, Booking CTA) -->
+      <div class="header-actions-group">
+        <!-- 1. Normal Tactile Segmented Theme Switcher (Pop • Cyber • Ember) -->
+        <div class="theme-switcher-bar" id="theme-switcher-bar" role="radiogroup" aria-label="Theme Selection">
+          <button class="theme-pill-btn active" data-theme="pop" title="Pop theme / ألوان حيوية">
+            <span class="theme-dot dot-pop"></span>
+            <span class="theme-btn-text">⚡ Pop</span>
+          </button>
+          <button class="theme-pill-btn" data-theme="cyber" title="Cyber theme / الوضع الليلي">
+            <span class="theme-dot dot-cyber"></span>
+            <span class="theme-btn-text">🌌 Cyber</span>
+          </button>
+          <button class="theme-pill-btn" data-theme="ember" title="Ember theme / نار وغروب">
+            <span class="theme-dot dot-ember"></span>
+            <span class="theme-btn-text">🔥 Ember</span>
+          </button>
+        </div>
+
+        <!-- Mobile Quick Cycle Theme Button -->
+        <button class="mobile-theme-cycle-btn" id="mobile-theme-cycle-btn" title="Cycle Atmosphere (Pop • Cyber • Ember)">
+          <span class="mobile-theme-icon" id="mobile-theme-icon">⚡</span>
+          <span class="mobile-theme-name" id="mobile-theme-name">Pop</span>
+          <span class="mobile-theme-arrow">↻</span>
+        </button>
+
+        <!-- Merged Unified Audio Control (Sound FX + Background Music) -->
+        <button class="sound-toggle-btn unified-audio-btn" id="unified-audio-btn" title="Toggle audio and sounds">
+          <span class="audio-btn-icon" id="unified-audio-icon">🔊</span>
+          <span class="audio-btn-label" id="unified-audio-label">Sound: ON</span>
+        </button>
+
+        <!-- 4. Booking CTA -->
+        <button class="pop-btn pop-btn-primary pop-btn-sm header-book-cta" data-action="open-booking">
+          <span class="en-text">Book 30 LYD</span>
+          <span class="ar-text">احجز 30 د.ل</span>
+        </button>
+
+        <!-- 5. Mobile Drawer Toggle -->
+        <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Open mobile menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+    <!-- Tactile Theme Cards in Drawer -->
+    <div class="mobile-drawer-theme-section">
+      <div class="mobile-theme-carousel-title">
+        <span>🎨</span>
+        <span>Choose Atmosphere / اختر الأجواء</span>
+      </div>
+      <div class="drawer-theme-grid">
+        <button class="drawer-theme-card active" data-theme="pop">
+          <div class="drawer-theme-badge dot-pop">⚡</div>
+          <div class="drawer-theme-info">
+            <strong>Pop Vibrance</strong>
+            <small>Classic Electric Blue &amp; Gold</small>
+          </div>
+          <span class="drawer-theme-check">✓</span>
+        </button>
+        <button class="drawer-theme-card" data-theme="cyber">
+          <div class="drawer-theme-badge dot-cyber">🌌</div>
+          <div class="drawer-theme-info">
+            <strong>Cyber Night</strong>
+            <small>Neon Synthwave Dark Mode</small>
+          </div>
+          <span class="drawer-theme-check">✓</span>
+        </button>
+        <button class="drawer-theme-card" data-theme="ember">
+          <div class="drawer-theme-badge dot-ember">🔥</div>
+          <div class="drawer-theme-info">
+            <strong>Ember Warmth</strong>
+            <small>Sunset Crimson &amp; Amber</small>
+          </div>
+          <span class="drawer-theme-check">✓</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick Audio Control in Drawer for Mobile -->
+    <div style="margin-bottom:0.75rem;">
+      <button class="pop-btn pop-btn-outline pop-btn-sm" style="width:100%; justify-content:center;" onclick="document.getElementById('unified-audio-btn').click();">
+        <span id="drawer-audio-icon">🔊</span> <span id="drawer-audio-label">Sound FX: ON</span>
+      </button>
+    </div>
+
+    <a href="#vibe-quiz" class="nav-link">🎯 60-Second Vibe Quiz</a>
+    <a href="#slot-machine" class="nav-link">🎰 Conversation Slot Machine</a>
+    <a href="#arcade" class="nav-link">🎮 Taboo Word-Ban Arcade</a>
+    <a href="#booking" class="nav-link">🗓️ Book a Seat (30 LYD)</a>
+    <a href="#venue" class="nav-link">📍 The Real Space in Tripoli</a>
+    <a href="#dashboard" class="nav-link">📊 Community Debate Poll</a>
+    <button class="pop-btn pop-btn-primary" data-action="open-booking" style="width:100%; margin-top:0.5rem;">
+      Book Next Session (30 LYD)
+    </button>
+  </div>
+
+  <main>
+    <!-- ========================================================================
+         HERO SECTION
+         ======================================================================== -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-grid" style="position:relative;">
+        <!-- Left Hero Content -->
+        <div style="position:relative; z-index:2;">
+          <div class="hero-pill-row">
+            <span class="pop-badge blue">✨ <span class="en-text">Youth &amp; Student Friendly</span><span class="ar-text">مناسب للشباب والطلاب</span></span>
+            <span class="pop-badge gold">⚡ 30 LYD</span>
+            <div class="hero-badge-break"></div>
+            <span class="pop-badge mint">☕ <span class="en-text">Cafe Discount</span><span class="ar-text">خصم المقهى</span></span>
+            <span class="pop-badge coral js-open-maps" data-action="open-maps" style="cursor:pointer;" title="Click to open مركز سفراء العلم in Google Maps">🏢 <span class="en-text">مركز سفراء العلم</span><span class="ar-text">مركز سفراء العلم</span> ↗</span>
+          </div>
+
+          <h1 class="hero-title en-block">
+            Where English Feels Like <br>
+            <span class="hero-title-highlight">Hanging Out,</span> <br class="mobile-only-br">Not Homework.
+          </h1>
+          <h1 class="hero-title ar-block" style="direction:rtl;">
+            حيث الإنجليزية تبدو مثل <br>
+            <span class="hero-title-highlight">التسلية،</span> <br class="mobile-only-br">لا الواجب المدرسي.
+          </h1>
+
+          <p class="hero-subtitle en-block">
+            Zero boring textbook grammar. TalkLab is Tripoli's weekly space where you debate spicy dilemmas, play fast-paced word games, and build unshakeable fluency with fun, open-minded people.
+          </p>
+          <p class="hero-subtitle ar-block" style="direction:rtl;">
+            لا قواعد نحوية مملة. تاكلاب هي المساحة الأسبوعية في طرابلس حيث تناقش قضايا شائكة، تلعب ألعاباً لغوية سريعة، وتبني طلاقة إنجليزية حقيقية مع أشخاص ممتعين ومنفتحين.
+          </p>
+
+          <div class="hero-cta-group">
+            <button class="pop-btn pop-btn-primary pop-btn-lg" data-action="open-booking">
+              <span class="en-text">Claim a Roundtable Chair</span>
+              <span class="ar-text">احجز مقعدك الآن</span>
+              <span style="font-family:var(--font-mono); font-size:0.95rem; background:rgba(255,255,255,0.25); padding:0.2rem 0.6rem; border-radius:8px;">30 LYD</span>
+            </button>
+            <a href="#slot-machine" class="pop-btn pop-btn-gold pop-btn-lg">
+              <span class="en-text">Spin Slot Machine 🎰</span>
+              <span class="ar-text">دوّر آلة المواضيع 🎰</span>
+            </a>
+          </div>
+
+          <!-- Interactive Emoji Reaction Burst Bar -->
+          <div class="emoji-reaction-bar">
+            <span class="emoji-bar-label">
+              <span class="en-text">Drop a Reaction:</span>
+              <span class="ar-text">أضف تفاعلك:</span>
+            </span>
+            <button class="emoji-trigger-btn" data-emoji="🔥" title="Hype!">🔥</button>
+            <button class="emoji-trigger-btn" data-emoji="🗣️" title="Yap Master">🗣️</button>
+            <button class="emoji-trigger-btn" data-emoji="💯" title="Facts">💯</button>
+            <button class="emoji-trigger-btn" data-emoji="☕" title="Coffee Lounge">☕</button>
+            <button class="emoji-trigger-btn" data-emoji="🚀" title="Level Up">🚀</button>
+            <button class="emoji-trigger-btn" data-emoji="💀" title="No way">💀</button>
+          </div>
+        </div>
+
+        <!-- Right Hero Booking Showcase Card -->
+        <div>
+          <div class="hero-booking-card">
+            <div class="hero-card-header">
+              <div>
+                <span class="pop-badge coral" style="margin-bottom:0.25rem;">Next Live Session</span>
+                <h3 style="font-size:1.6rem; font-weight:900;">Saturday Immersion</h3>
+              </div>
+              <div class="hero-price-tag">
+                30 LYD
+                <small>all activities included</small>
+              </div>
+            </div>
+
+            <div class="hero-session-box">
+              <div class="hero-session-name">Every Saturday • 12:00 PM – 4:00 PM</div>
+              <div class="hero-session-hours js-open-maps" data-action="open-maps" style="cursor:pointer;" title="Click to open exact location in Google Maps">📍 مركز سفراء العلم • حي الأندلس، شارع البريد، طرابلس ↗</div>
+            </div>
+
+            <!-- Countdown -->
+            <div style="font-family:var(--font-mono); font-size:0.8rem; font-weight:800; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.5rem; display:flex; justify-content:space-between;">
+              <span>Countdown to Session</span>
+              <span style="color:var(--color-accent-mint);">● Live Sync</span>
+            </div>
+
+            <div class="countdown-box-grid">
+              <div class="countdown-cell">
+                <div class="countdown-val" id="countdown-days">00</div>
+                <div class="countdown-lbl">Days</div>
+              </div>
+              <div class="countdown-cell">
+                <div class="countdown-val" id="countdown-hours">00</div>
+                <div class="countdown-lbl">Hours</div>
+              </div>
+              <div class="countdown-cell">
+                <div class="countdown-val" id="countdown-minutes">00</div>
+                <div class="countdown-lbl">Mins</div>
+              </div>
+              <div class="countdown-cell">
+                <div class="countdown-val" id="countdown-seconds">00</div>
+                <div class="countdown-lbl">Secs</div>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; font-weight:800; font-size:0.95rem; margin-bottom:0.6rem;">
+              <span>Boardroom Availability (25 Seats Max)</span>
+              <span id="hero-available-count" style="color:var(--color-accent-coral); font-weight:900;">9 spots left</span>
+            </div>
+
+            <button class="pop-btn pop-btn-primary" data-action="open-booking" style="width:100%; padding:1rem; font-size:1.15rem;">
+              Lock In Your Spot (30 LYD)
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         MARQUEE BANNER
+         ======================================================================== -->
+    <div class="marquee-ribbon primary" aria-hidden="true">
+      <div class="marquee-track">
+        <span class="marquee-text-item">★ 25 SEATS PER IMMERSION TABLE <span class="marquee-star">✦</span></span>
+        <span class="marquee-text-item">HOSTED AT مركز سفراء العلم (PEOPLE &amp; SPACES) TRIPOLI <span class="marquee-star">✦</span></span>
+        <span class="marquee-text-item">SATURDAY 12:00 PM – 4:00 PM (30 LYD) <span class="marquee-star">✦</span></span>
+        <span class="marquee-text-item">TUESDAY 4:00 PM – 7:00 PM (30 LYD) <span class="marquee-star">✦</span></span>
+        <span class="marquee-text-item">NO AWKWARD SILENCES <span class="marquee-star">✦</span></span>
+        <span class="marquee-text-item">PEOPLE &amp; SPACES CAFE DISCOUNT <span class="marquee-star">✦</span></span>
+        <span class="marquee-text-item">OXFORD FISHBOWL DEBATES <span class="marquee-star">✦</span></span>
+        <span class="marquee-text-item">★ 25 SEATS PER IMMERSION TABLE <span class="marquee-star">✦</span></span>
+        <span class="marquee-text-item">SATURDAY 12:00 PM – 4:00 PM (30 LYD) <span class="marquee-star">✦</span></span>
+      </div>
+    </div>
+
+    <!-- ========================================================================
+         "WHAT'S YOUR ENGLISH VIBE?" 60-SECOND PERSONA QUIZ
+         ======================================================================== -->
+    <section class="section" id="vibe-quiz">
+      <div class="container">
+        <div class="section-header">
+          <span class="pop-badge gold">Diagnostic Mini-Game</span>
+          <h2 class="section-title">What's Your English Speaking Vibe?</h2>
+          <p class="section-subtitle">
+            Answer 4 quick, brutally honest questions to diagnose your speaking persona and get your custom TalkLab playbook!
+          </p>
+        </div>
+
+        <div class="quiz-wrapper">
+          <!-- Progress Bar -->
+          <div style="display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:0.85rem; font-weight:800; margin-bottom:0.5rem;">
+            <span id="quiz-step-label">Question 1 of 4</span>
+            <span style="color:var(--color-primary);">60-Sec Check</span>
+          </div>
+
+          <div class="quiz-progress-bar-wrap">
+            <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+          </div>
+
+          <!-- Question Card -->
+          <div id="quiz-question-card">
+            <h3 class="quiz-question-title" id="quiz-title">Loading question...</h3>
+            <div class="quiz-options-grid" id="quiz-options-container">
+              <!-- Dynamically populated by quiz.js -->
+            </div>
+          </div>
+
+          <!-- Result Card (Hidden Initially) -->
+          <div id="quiz-result-card" style="display:none;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         CONVERSATION SLOT MACHINE (Arcade Icebreaker)
+         ======================================================================== -->
+    <section class="section" id="slot-machine" style="background-color: var(--bg-surface-elevated);">
+      <div class="container">
+        <div class="section-header">
+          <span class="pop-badge coral">Arcade Game</span>
+          <h2 class="section-title">The Conversation Slot Machine</h2>
+          <p class="section-subtitle">
+            Hit spin to roll a random topic, a wild debate twist, and a countdown sprint. This is how we warm up at TalkLab!
+          </p>
+        </div>
+
+        <div class="slot-machine-wrapper">
+          <div class="slot-neon-header">
+            <div>
+              <span style="font-family:var(--font-mono); font-size:0.8rem; font-weight:900; text-transform:uppercase; color:var(--color-primary);">Interactive Arcade Engine</span>
+              <h3 style="font-size:1.8rem; font-weight:900;">Spin For A Chaotic Debate Challenge</h3>
+            </div>
+            <span class="pop-badge gold">🎰 High-Speed Icebreaker</span>
+          </div>
+
+          <!-- The 3 Mechanical Reels -->
+          <div class="slot-reels-container">
+            <!-- Reel 1: Topic -->
+            <div class="slot-reel">
+              <span class="reel-label">1. Controversial Topic</span>
+              <div class="reel-content-box" id="slot-reel-1">🍕 Pineapple Pizza is an Act of War</div>
+            </div>
+
+            <!-- Reel 2: Twist -->
+            <div class="slot-reel">
+              <span class="reel-label">2. Debate Twist</span>
+              <div class="reel-content-box" id="slot-reel-2">🏛️ Argue like an overconfident lawyer</div>
+            </div>
+
+            <!-- Reel 3: Time Limit -->
+            <div class="slot-reel">
+              <span class="reel-label">3. Time Limit</span>
+              <div class="reel-content-box" id="slot-reel-3" style="color:var(--color-accent-coral);">⏱️ 60s Full Pitch</div>
+            </div>
+          </div>
+
+          <div style="background:var(--bg-surface); border:var(--border-width) dashed var(--border-color); border-radius:var(--radius-md); padding:1rem 1.5rem; text-align:center; margin-bottom:2rem;" id="slot-challenge-summary">
+            <strong>Ready?</strong> Pull the lever below to generate your spontaneous speaking challenge!
+          </div>
+
+          <div class="slot-actions-row">
+            <button class="pop-btn pop-btn-coral pop-btn-lg" id="slot-spin-btn">
+              <span>🎰 PULL LEVER / SPIN!</span>
+            </button>
+            <button class="pop-btn pop-btn-surface pop-btn-lg" data-action="open-booking">
+              <span>Practice This In Person (30 LYD)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         TABOO / WORD-BAN ARCADE WITH COMBOS
+         ======================================================================== -->
+    <section class="section" id="arcade">
+      <div class="container">
+        <div class="section-header">
+          <span class="pop-badge mint">Vocabulary Sprint</span>
+          <h2 class="section-title">Taboo Word-Ban Arcade</h2>
+          <p class="section-subtitle">
+            Describe the target word in English without using ANY of the 4 forbidden words. Chain together correct guesses to stack up combo multipliers!
+          </p>
+        </div>
+
+        <div class="arcade-wrapper">
+          <div class="arcade-top-bar">
+            <div>
+              <span style="font-family:var(--font-mono); font-size:0.8rem; font-weight:800; text-transform:uppercase; color:var(--text-muted);">Active Game Mode</span>
+              <h3 style="font-size:1.6rem; font-weight:900;">Fluency Circumlocution Lab</h3>
+            </div>
+            <div style="display:flex; align-items:center; gap:0.75rem;">
+              <span class="combo-streak-badge" id="arcade-combo-badge">🔥 COMBO: <span id="arcade-combo-val">1x</span></span>
+              <span class="pop-badge gold">XP: <span id="arcade-score-val">0</span></span>
+            </div>
+          </div>
+
+          <div class="arcade-card-arena">
+            <!-- Physical Card Simulation -->
+            <div class="arcade-physical-card">
+              <span style="font-family:var(--font-mono); font-size:0.8rem; font-weight:900; text-transform:uppercase; color:var(--text-muted);">Explain This Word</span>
+              <div class="target-word-title" id="arcade-target-word">INSTAGRAM</div>
+
+              <div class="forbidden-list-box">
+                <span style="font-family:var(--font-mono); font-size:0.75rem; font-weight:900; text-transform:uppercase; color:var(--color-accent-coral); display:block; margin-bottom:0.5rem;">
+                  Forbidden Words (Do Not Say!)
+                </span>
+                <div id="arcade-forbidden-list">
+                  <span class="forbidden-word-tag">🚫 PHOTO</span>
+                  <span class="forbidden-word-tag">🚫 LIKE</span>
+                  <span class="forbidden-word-tag">🚫 STORY</span>
+                  <span class="forbidden-word-tag">🚫 APP</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Controls & Timer -->
+            <div style="display:flex; flex-direction:column; gap:1.5rem;">
+              <div class="pop-card" style="padding:1.5rem;">
+                <h4 style="font-size:1.2rem; margin-bottom:0.4rem;">The Arcade Rule:</h4>
+                <p style="font-size:0.95rem; line-height:1.55;">
+                  Get your team to say the main word. If you slip up and say a forbidden word, hit <strong>Buzz/Pass</strong> and lose your combo streak!
+                </p>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-surface-elevated); border:var(--border-width) solid var(--border-color); padding:1rem 1.5rem; border-radius:var(--radius-md);">
+                <div>
+                  <span style="font-family:var(--font-mono); font-size:0.78rem; text-transform:uppercase; font-weight:800; color:var(--text-muted);">Round Clock</span>
+                  <div style="font-family:var(--font-display); font-size:2rem; font-weight:900; color:var(--color-primary);" id="arcade-timer-display">45s</div>
+                </div>
+                <button class="pop-btn pop-btn-surface pop-btn-sm" id="arcade-timer-btn">
+                  ▶ Start Timer
+                </button>
+              </div>
+
+              <div style="display:flex; gap:1rem;">
+                <button class="pop-btn pop-btn-surface" id="arcade-btn-pass" style="flex:1;">
+                  ✕ Pass / Buzz
+                </button>
+                <button class="pop-btn pop-btn-primary" id="arcade-btn-correct" style="flex:1.4;">
+                  ✓ Got It! (+100 XP)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         GEN-Z SLANG & MODERN IDIOM LAB (3D FLIP CARDS)
+         ======================================================================== -->
+    <section class="section" id="slang-lab" style="background-color: var(--bg-surface-elevated);">
+      <div class="container">
+        <div class="section-header">
+          <span class="pop-badge gold">Modern Expressions</span>
+          <h2 class="section-title">The TalkLab Slang & Idiom Lab</h2>
+          <p class="section-subtitle">
+            Tired of outdated 1990s textbook English? Flip these interactive 3D cards to master modern slang, debate idioms, and phrases you will actually use.
+          </p>
+
+          <!-- Filter Pills -->
+          <div class="slang-filters-row">
+            <button class="slang-filter-btn active" data-filter="all">All Expressions</button>
+            <button class="slang-filter-btn" data-filter="internet">Internet & Pop Culture</button>
+            <button class="slang-filter-btn" data-filter="rhetoric">Debate Rhetoric</button>
+            <button class="slang-filter-btn" data-filter="social">Social IQ & Vibes</button>
+          </div>
+        </div>
+
+        <div class="slang-cards-grid" id="slang-cards-container">
+          <!-- Dynamically populated by slanglab.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         TALKLAB BRAND IDENTITY & MISSION SPOTLIGHT
+         Showcases the TalkLab emblem proudly and familiarizes the user with the club
+         ======================================================================== -->
+    <section class="talklab-spotlight-section" id="about-talklab">
+      <div class="container">
+        <div class="talklab-spotlight-card">
+          <!-- Left: Big Iconic Logo Emblem & Official Seal -->
+          <div class="talklab-spotlight-left">
+            <div class="talklab-spotlight-logo-box" id="spotlight-logo-container">
+              <img src="assets/logo-blue.png" alt="TalkLab Official Logo Tripoli" class="talklab-spotlight-logo-img" id="spotlight-brand-logo">
+            </div>
+            <span class="talklab-spotlight-seal">★ Official Tripoli Club 🇱🇾</span>
+          </div>
+
+          <!-- Right: Brand Mission & DNA -->
+          <div>
+            <span class="pop-badge blue" style="margin-bottom:0.75rem;">
+              <span class="en-text">✨ The TalkLab Standard</span>
+              <span class="ar-text">✨ معيار تاكلاب</span>
+            </span>
+            <h2 class="talklab-spotlight-title en-block">
+              Tripoli's English Conversation Club Built for Ambitious Minds.
+            </h2>
+            <h2 class="talklab-spotlight-title ar-block" style="direction:rtl;">
+              نادي المحادثة الإنجليزية في طرابلس المصمم للعقول الطموحة.
+            </h2>
+            <p class="talklab-spotlight-desc en-block">
+              We created TalkLab to replace outdated, dry grammar courses with high-energy peer conversation. Every week in Hay Al-Andalus, 25 young thinkers gather at <strong>مركز سفراء العلم</strong> (People &amp; Spaces) to argue spicy dilemmas, build genuine speaking confidence, and connect without fear of judgment.
+            </p>
+            <p class="talklab-spotlight-desc ar-block" style="direction:rtl;">
+              أنشأنا تاكلاب لنستبدل دورات القواعد التقليدية المملة بمحادثات حماسية بين أقران طموحين. كل أسبوع في حي الأندلس، يجتمع 25 شاباً في <strong>مركز سفراء العلم</strong> (People &amp; Spaces) لمناقشة قضايا شائكة، وبناء طلاقة لغوية حقيقية دون أي خوف من الأخطاء أو التقييم.
+            </p>
+
+            <div class="talklab-spotlight-features">
+              <div class="talklab-feature-chip">
+                <span class="talklab-feature-chip-icon">🎯</span>
+                <div>
+                  <strong><span class="en-text">Zero Grammar Drills</span><span class="ar-text">بدون واجبات قواعد</span></strong>
+                  <div style="font-size:0.78rem; color:var(--text-muted); font-family:var(--font-mono);"><span class="en-text">100% interactive immersion</span><span class="ar-text">ممارسة تفاعلية 100%</span></div>
+                </div>
+              </div>
+
+              <div class="talklab-feature-chip">
+                <span class="talklab-feature-chip-icon">⚡</span>
+                <div>
+                  <strong><span class="en-text">30 LYD Flat Fee</span><span class="ar-text">30 د.ل فقط</span></strong>
+                  <div style="font-size:0.78rem; color:var(--text-muted); font-family:var(--font-mono);"><span class="en-text">Pay at door • All games included</span><span class="ar-text">الدفع عند الوصول • شامل كل الأنشطة</span></div>
+                </div>
+              </div>
+
+              <div class="talklab-feature-chip js-open-maps" data-action="open-maps" style="cursor:pointer;" title="Click to view مركز سفراء العلم on Google Maps">
+                <span class="talklab-feature-chip-icon">📍</span>
+                <div>
+                  <strong><span class="en-text">مركز سفراء العلم Hub ↗</span><span class="ar-text">مركز سفراء العلم ↗</span></strong>
+                  <div style="font-size:0.78rem; color:var(--text-muted); font-family:var(--font-mono);"><span class="en-text">Hay Al-Andalus • Al-Bareed St</span><span class="ar-text">حي الأندلس • شارع البريد</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="talklab-spotlight-actions">
+              <a href="#booking" class="pop-btn pop-btn-primary pop-btn-md">
+                <span class="en-text">Claim a 30 LYD Seat 🗓️</span>
+                <span class="ar-text">احجز مقعدك بـ 30 د.ل 🗓️</span>
+              </a>
+              <a href="#venue" class="pop-btn pop-btn-surface pop-btn-md">
+                <span class="en-text">Explore Venue & Photos 📍</span>
+                <span class="ar-text">استكشف المكان والصور 📍</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         REAL-TIME BOOKING & TACTICAL ROUNDTABLE MAP (CORE REQUIREMENT)
+         Strictly 30 LYD, Saturday (12-4pm) & Tuesday (4-7pm), 14 capacity
+         ======================================================================== -->
+    <section class="section booking-section" id="booking">
+      <div class="container">
+        <div class="section-header">
+          <div style="display:inline-flex; align-items:center; gap:0.6rem; background:var(--bg-surface); border:2px solid var(--border-color); box-shadow:2.5px 2.5px 0px var(--shadow-color); padding:0.35rem 0.85rem; border-radius:var(--radius-full); margin-bottom:0.75rem;">
+            <img src="assets/logo-cream.png" alt="TalkLab" style="width:22px; height:22px; border-radius:6px; object-fit:contain; background:var(--color-primary); padding:2px;">
+            <span style="font-family:var(--font-mono); font-size:0.78rem; font-weight:900; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-main);">
+              <span class="en-text">Official TalkLab Roundtable • 30 LYD</span>
+              <span class="ar-text">طاولة تاكلاب الرسمية • 30 د.ل</span>
+            </span>
+          </div>
+          <h2 class="section-title en-block">Claim Your Roundtable Seat</h2>
+          <h2 class="section-title ar-block" style="direction:rtl;">احجز مقعدك على الطاولة</h2>
+          <p class="section-subtitle en-block">
+            No crowded lecture halls. Strictly 25 members inside <strong>مركز سفراء العلم</strong> (People &amp; Spaces) for deep speaking practice. Flat fee: <strong>30 LYD</strong>.
+          </p>
+          <p class="section-subtitle ar-block" style="direction:rtl;">
+            لا قاعات محاضرات مزدحمة. فقط 25 عضواً داخل <strong>مركز سفراء العلم</strong> (People &amp; Spaces) لممارسة محادثة حقيقية وعميقة. الرسوم: <strong>30 د.ل</strong>.
+          </p>
+        </div>
+
+        <!-- Session Selection Cards -->
+        <div class="session-cards-grid">
+          <!-- Card 1: Saturday Immersion -->
+          <div class="session-hero-card active" data-session="saturday" id="session-card-saturday">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+              <span class="pop-badge blue">Weekend 4-Hour Lab</span>
+              <div style="font-family:var(--font-display); font-size:2rem; font-weight:900; color:var(--color-primary);">30 LYD</div>
+            </div>
+
+            <h3 style="font-size:1.8rem; font-weight:900; margin-bottom:0.5rem;">Saturday Immersion Lab</h3>
+            <p style="font-family:var(--font-mono); font-size:1.05rem; font-weight:800; color:var(--color-primary); margin-bottom:1rem;">
+              Every Saturday • 12:00 PM – 4:00 PM (4 Hours)
+            </p>
+            <p style="font-size:0.95rem; line-height:1.6; margin-bottom:1.5rem;">
+              Oxford Fishbowl debates, spontaneous improv battles, People &amp; Spaces in-house cafe break &amp; team word games.
+            </p>
+
+            <div style="font-size:0.85rem; font-weight:800; color:var(--color-accent-mint);">
+              ● Click to view live table map (25 Seats)
+            </div>
+          </div>
+
+          <!-- Card 2: Tuesday Twilight -->
+          <div class="session-hero-card" data-session="tuesday" id="session-card-tuesday">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+              <span class="pop-badge coral">Midweek 3-Hour Sprint</span>
+              <div style="font-family:var(--font-display); font-size:2rem; font-weight:900; color:var(--color-accent-coral);">30 LYD</div>
+            </div>
+
+            <h3 style="font-size:1.8rem; font-weight:900; margin-bottom:0.5rem;">Tuesday Twilight Lab</h3>
+            <p style="font-family:var(--font-mono); font-size:1.05rem; font-weight:800; color:var(--color-accent-coral); margin-bottom:1rem;">
+              Every Tuesday • 4:00 PM – 7:00 PM (3 Hours)
+            </p>
+            <p style="font-size:0.95rem; line-height:1.6; margin-bottom:1.5rem;">
+              Fast-paced speed networking rotations, moral dilemma defense, modern slang labs &amp; People &amp; Spaces cafe discounts.
+            </p>
+
+            <div style="font-size:0.85rem; font-weight:800; color:var(--color-accent-mint);">
+              ● Click to view live table map (25 Seats)
+            </div>
+          </div>
+        </div>
+
+        <!-- Fast Session Switcher Tabs (Saturday & Tuesday) -->
+        <div class="boardroom-session-switcher">
+          <button class="session-switch-btn active" data-session="saturday" id="switch-btn-saturday">
+            <span>📅 Saturday Immersion</span>
+            <span class="session-switch-badge">12:00 – 4:00 PM • 30 LYD</span>
+          </button>
+          <button class="session-switch-btn" data-session="tuesday" id="switch-btn-tuesday">
+            <span>🌙 Tuesday Twilight</span>
+            <span class="session-switch-badge">4:00 – 7:00 PM • 30 LYD</span>
+          </button>
+        </div>
+
+        <!-- Tactile Boardroom Table Stage (Matching Sketch & Website Vibe) -->
+        <div class="table-interactive-stage">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;">
+            <div style="text-align:left;">
+              <h3 style="font-size:1.45rem; font-weight:900;" id="boardroom-current-session-label">Saturday Immersion Lab (12:00 PM – 4:00 PM) — 30 LYD</h3>
+              <p style="font-size:0.9rem; color:var(--text-muted);">Click any green chair to choose your exact seat position at People &amp; Spaces!</p>
+            </div>
+            <span class="pop-badge mint" id="seat-status-pill">🟢 9 seats available (out of 25) • Saturday</span>
+          </div>
+
+          <!-- Outer Card with Neo-Pop styling (Exact match to diagram & sketch) -->
+          <div class="boardroom-outer-card">
+            <!-- Top Row: Screen on Left/Center + Entry on Top-Right (Matches User Sketch!) -->
+            <div class="boardroom-top-row">
+              <div class="boardroom-screen-bar">
+                <span class="screen-dot" aria-hidden="true"></span>
+                <div class="screen-content">
+                  <div class="screen-title">📺 SCREEN</div>
+                  <div class="screen-subtitle">PEOPLE &amp; SPACES MAIN STAGE • 4K LIVE PROJECTION WALL</div>
+                </div>
+                <span class="screen-dot" aria-hidden="true"></span>
+              </div>
+
+              <!-- Top-Right Entry Door (From User Sketch) -->
+              <div class="boardroom-entry-door" title="Check in at People &amp; Spaces reception desk, enter here">
+                <div class="entry-door-header">
+                  <span>🚪 ENTRY</span>
+                </div>
+                <div class="entry-door-threshold"></div>
+                <span class="entry-door-sub">Main Floor</span>
+              </div>
+            </div>
+
+            <!-- Lead Moderator Chair Area -->
+            <div class="boardroom-lead-area">
+              <span class="lead-text-label">👑 LEAD / MODERATOR</span>
+              <div class="lead-chair-circle" id="secret-lead-chair-trigger" title="Moderator / Discussion Lead (Triple-click for Gavel Easter Egg!)">
+                <span>S</span>
+              </div>
+            </div>
+
+            <!-- Arena Floor: Left Chairs + Table Slab + Right Chairs -->
+            <div class="boardroom-arena-floor">
+
+              <!-- Left Chair Column (Seats 1-12) -->
+              <div class="boardroom-chair-column left-col" id="chairs-left-col">
+                <!-- Dynamically rendered by BookingSystem.renderBoardroomMap() -->
+              </div>
+
+              <!-- Central Boardroom Table Slab -->
+              <div class="boardroom-table-slab">
+                <!-- MOD Badge at Top Edge -->
+                <div class="mod-pill-badge">MOD</div>
+
+                <!-- Center Spine Line -->
+                <div class="table-center-spine"></div>
+
+                <!-- 12 Desk Rows with Vertical T-A-B-L-E Letters -->
+                <div class="table-desk-rows-wrap" id="table-desk-rows">
+                  <!-- Dynamically rendered by BookingSystem.renderBoardroomMap() -->
+                </div>
+              </div>
+
+              <!-- Right Chair Column (Seats 14-25) -->
+              <div class="boardroom-chair-column right-col" id="chairs-right-col">
+                <!-- Dynamically rendered by BookingSystem.renderBoardroomMap() -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Color Legend -->
+          <div class="boardroom-legend">
+            <div class="legend-item">
+              <span class="legend-swatch available"></span>
+              <span>Available (Click to Pick)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch booked"></span>
+              <span>Reserved</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch selected"></span>
+              <span>Your Pick</span>
+            </div>
+          </div>
+
+          <!-- Action Button -->
+          <div style="margin-top:2rem; display:flex; justify-content:center;">
+            <button class="pop-btn pop-btn-primary pop-btn-lg boardroom-reserve-btn" id="boardroom-reserve-btn">
+              <span>Reserve Seat for 30 LYD</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         FISHBOWL HOT SEAT DEBATE ARGUMENT GENERATOR
+         ======================================================================== -->
+    <section class="section" id="hot-seat">
+      <div class="container">
+        <div class="section-header">
+          <span class="pop-badge coral">Hot Seat Simulator</span>
+          <h2 class="section-title">The Fishbowl Argument Generator</h2>
+          <p class="section-subtitle">
+            Step into the virtual hot seat. Choose whether you're PRO or CON, and get punchy debate opening lines to test out loud right now!
+          </p>
+        </div>
+
+        <div class="hotseat-generator-wrapper">
+          <div style="text-align:center; margin-bottom:1.5rem;">
+            <span class="pop-badge blue" id="hotseat-cat-badge">Tech & Future</span>
+            <h3 style="font-size:1.9rem; font-weight:900; margin-top:0.4rem;" id="hotseat-topic-title">
+              “Should AI completely replace traditional high school teachers by 2030?”
+            </h3>
+          </div>
+
+          <!-- Stance Toggle -->
+          <div class="hotseat-stance-row">
+            <button class="hotseat-stance-btn active" data-stance="pro">
+              <span>🟢 TAKE PRO</span>
+              <small style="display:block; font-size:0.75rem; font-weight:700; opacity:0.85;">Affirmative Stance</small>
+            </button>
+            <button class="hotseat-stance-btn" data-stance="con">
+              <span>🔴 TAKE CON</span>
+              <small style="display:block; font-size:0.75rem; font-weight:700; opacity:0.85;">Negative Stance</small>
+            </button>
+          </div>
+
+          <!-- Generated Argument Bullets -->
+          <div class="hotseat-bullets-box" id="hotseat-bullets-list">
+            <!-- Dynamically populated by slanglab.js -->
+          </div>
+
+          <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin-top:2rem;">
+            <button class="pop-btn pop-btn-surface pop-btn-lg" id="hotseat-next-topic-btn">
+              <span>Roll Next Debate Dilemma 🎲</span>
+            </button>
+            <button class="pop-btn pop-btn-primary pop-btn-lg" data-action="open-booking">
+              <span>Debate This in Person (30 LYD)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         THE PHYSICAL TRIPOLI SPACE — PREMIUM REDESIGN
+         ======================================================================== -->
+    <section class="section" id="venue" style="background-color: var(--bg-surface-elevated);">
+      <div class="container">
+        <div class="section-header">
+          <span class="pop-badge terracotta">📍 Official Host Venue</span>
+          <h2 class="section-title">Where TalkLab Lives — <span class="ar-clean">مركز سفراء العلم</span></h2>
+          <p class="section-subtitle">
+            Every week, TalkLab takes over People &amp; Spaces inside <strong class="ar-clean">مركز سفراء العلم للتدريب والتطوير</strong> (Sofaraa Al-Elm Center) — Tripoli's premier creative learning &amp; coworking hub in Hay Al-Andalus.
+          </p>
+        </div>
+
+        <!-- ✅ PREMIUM PARTNERSHIP BANNER -->
+        <div class="partnership-banner">
+          <!-- People & Spaces / Sofaraa Al-Elm Logo -->
+          <div class="partnership-logo-block">
+            <img src="assets/people-spaces-logo.jpg" alt="People &amp; Spaces — مركز سفراء العلم" class="partnership-logo-img">
+            <span class="partnership-logo-label ar-clean">مركز سفراء العلم</span>
+          </div>
+
+          <div class="partnership-x">×</div>
+
+          <!-- TalkLab Logo -->
+          <div class="partnership-talklab-block">
+            <img src="assets/logo-cream.png" alt="TalkLab" class="partnership-talklab-img">
+            <span class="partnership-logo-label">TalkLab</span>
+          </div>
+
+          <!-- Partnership Info -->
+          <div class="partnership-info">
+            <div class="partnership-tag">🤝 Official Hosting Partnership</div>
+            <div class="partnership-title">Sofaraa Al-Elm Center (<span class="ar-clean">مركز سفراء العلم</span> / People &amp; Spaces) is the Official Home of TalkLab</div>
+            <p class="partnership-desc">Tripoli's accredited training and coworking center in Hay Al-Andalus hosts every TalkLab session — featuring a 4K projection stage, ergonomic boardroom seating, fiber Wi-Fi, backup power &amp; exclusive member café discounts.</p>
+            <div class="partnership-links">
+              <a href="tel:+218920920230" class="pop-btn pop-btn-gold pop-btn-sm">📞 +218 92-0920230</a>
+              <a href="https://www.facebook.com/profile.php/?id=61586379443424" target="_blank" class="pop-btn pop-btn-surface pop-btn-sm">📘 People &amp; Spaces</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ✅ AUTHENTIC TALKLAB & VENUE PHOTO GALLERY (100% REAL PHOTOS) -->
+        <div class="venue-photo-grid">
+          <!-- Real Photo 1: Live Discussion & Fishbowl Debate -->
+          <div class="venue-photo-card tall">
+            <img src="assets/talklab-session-discussion.jpg" alt="Real TalkLab English conversation and debate session at مركز سفراء العلم Tripoli" loading="lazy">
+            <div class="venue-photo-caption">🗣️ <span class="en-text">Live Conversation Session • Hay Al-Andalus</span><span class="ar-text">جلسة محادثة حية • حي الأندلس</span></div>
+          </div>
+
+          <!-- Real Photo 2: Full Conference Room & Dual 4K Stage -->
+          <div class="venue-photo-card tall">
+            <img src="assets/talklab-session-screens.png" alt="TalkLab participants seated at the conference table with presentation displays at مركز سفراء العلم" loading="lazy">
+            <div class="venue-photo-caption">📺 <span class="en-text">Dual-Display Conference Stage &amp; Boardroom</span><span class="ar-text">قاعة المؤتمرات وشاشات العرض التفاعلية</span></div>
+          </div>
+
+          <!-- Real Photo 3: "Breathe, Learn & Create" Feature Wall -->
+          <div class="venue-photo-card tall">
+            <img src="assets/venue-breathe-wall.png" alt="People &amp; Spaces main lounge feature wall in Tripoli — Space to Breathe, Learn &amp; Create" loading="lazy">
+            <div class="venue-photo-caption">✨ <span class="en-text">"Space to Breathe, Learn &amp; Create" Wall</span><span class="ar-text">جدارية "مساحتك للتنفس، التعلم، والابتكار"</span></div>
+          </div>
+
+          <!-- Real Photo 4: Presentation Stage & Meeting Space -->
+          <div class="venue-photo-card tall">
+            <img src="assets/venue-screen-table.png" alt="Real training boardroom and presentation setup at مركز سفراء العلم People &amp; Spaces Tripoli" loading="lazy">
+            <div class="venue-photo-caption">🏢 <span class="en-text">People &amp; Spaces Training Stage</span><span class="ar-text">منصة التدريب بمركز سفراء العلم</span></div>
+          </div>
+        </div>
+
+        <!-- ✅ VENUE INFO + MAP GRID -->
+        <div class="venue-hero-banner">
+          <div class="venue-hero-left">
+            <div class="venue-address-block">
+              <div class="venue-address-icon">📍</div>
+              <div>
+                <div class="venue-address-label en-text">Exact Official Location</div>
+                <div class="venue-address-label ar-text" style="direction:rtl;">المقر والموقع الدقيق</div>
+                <div class="venue-address-main">مركز سفراء العلم للتدريب والتطوير</div>
+                <div class="venue-address-sub">حي الأندلس، شارع البريد — طرابلس، ليبيا 🇱🇾</div>
+                <div class="venue-address-city">Sofaraa Al-Elm Center • Hay Al-Andalus, Al-Bareed St</div>
+              </div>
+            </div>
+            <div class="venue-contact-row">
+              <a href="tel:+218920920230" class="venue-contact-pill">
+                <span>📞</span>
+                <span>092-0920230</span>
+              </a>
+              <button type="button" class="venue-contact-pill js-open-maps" data-action="open-maps" style="border:none; cursor:pointer; font-family:inherit;">
+                <span>📍</span>
+                <span>خرائط جوجل (1-Click)</span>
+              </button>
+            </div>
+            <p class="venue-tagline">"مساحة تدريبية ودراسية مجهزة خصيصاً لكل من يبحث عن بيئة هادئة ومنظمة للتركيز والإنتاجية"</p>
+            <p class="venue-tagline-en en-block">An accredited training and learning environment built for focus, productivity, and modern community sessions.</p>
+
+            <div class="venue-feature-grid">
+              <div class="venue-feature-item">
+                <div class="venue-feature-icon">☕</div>
+                <div>
+                  <div class="venue-feature-title"><span class="en-text">In-House Cafe</span><span class="ar-text">مقهى داخلي</span></div>
+                  <div class="venue-feature-desc"><span class="en-text">Exclusive TalkLab member discount on all drinks &amp; snacks</span><span class="ar-text">خصم حصري لأعضاء تاكلاب على المشروبات والوجبات</span></div>
+                </div>
+              </div>
+              <div class="venue-feature-item">
+                <div class="venue-feature-icon">⚡</div>
+                <div>
+                  <div class="venue-feature-title"><span class="en-text">Generator Backup</span><span class="ar-text">مولد احتياطي</span></div>
+                  <div class="venue-feature-desc"><span class="en-text">100% uninterrupted power — no cuts during sessions</span><span class="ar-text">طاقة متواصلة 100٪ — لا انقطاعات أثناء الجلسات</span></div>
+                </div>
+              </div>
+              <div class="venue-feature-item">
+                <div class="venue-feature-icon">📶</div>
+                <div>
+                  <div class="venue-feature-title"><span class="en-text">Fiber Wi-Fi</span><span class="ar-text">واي فاي فائق السرعة</span></div>
+                  <div class="venue-feature-desc"><span class="en-text">High-speed internet for real-time vocabulary research</span><span class="ar-text">إنترنت عالي السرعة لبحوث المفردات الفورية</span></div>
+                </div>
+              </div>
+              <div class="venue-feature-item">
+                <div class="venue-feature-icon">🎬</div>
+                <div>
+                  <div class="venue-feature-title"><span class="en-text">4K Projection</span><span class="ar-text">عرض 4K</span></div>
+                  <div class="venue-feature-desc"><span class="en-text">Live topic projection wall &amp; debate timer display</span><span class="ar-text">جدار عرض مباشر وعداد وقت النقاش</span></div>
+                </div>
+              </div>
+              <div class="venue-feature-item">
+                <div class="venue-feature-icon">🛋️</div>
+                <div>
+                  <div class="venue-feature-title"><span class="en-text">25 Ergonomic Seats</span><span class="ar-text">25 مقعداً مريحاً</span></div>
+                  <div class="venue-feature-desc"><span class="en-text">Premium mesh seating for long speaking sessions</span><span class="ar-text">مقاعد فاخرة مناسبة للجلسات الطويلة</span></div>
+                </div>
+              </div>
+              <div class="venue-feature-item">
+                <div class="venue-feature-icon">🅿️</div>
+                <div>
+                  <div class="venue-feature-title"><span class="en-text">Free Parking</span><span class="ar-text">مواقف مجانية</span></div>
+                  <div class="venue-feature-desc"><span class="en-text">On-site &amp; street parking directly at the entrance</span><span class="ar-text">مواقف في الموقع وعلى الشارع أمام المدخل مباشرة</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="venue-map-btns">
+              <button type="button" class="pop-btn pop-btn-gold pop-btn-sm js-open-maps" data-action="open-maps" data-maps-mode="directions">
+                🧭 <span class="en-text">Get Directions</span><span class="ar-text">احصل على الاتجاهات</span>
+              </button>
+              <a href="tel:+218920920230" class="pop-btn pop-btn-surface pop-btn-sm">
+                📞 <span class="en-text">Call 0920920230</span><span class="ar-text">اتصل بنا</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Google Maps Embed -->
+          <div>
+            <div class="gmap-embed-wrap js-open-maps" data-action="open-maps" data-maps-mode="directions" style="position:relative; cursor:pointer;" title="Click to get directions to مركز سفراء العلم">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3348.56!2d13.145!3d32.885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13a8edb16770518d%3A0xac3648e0d6923b2e!2z2YXYsdmD2LIg2LPZgdix2KfYoSDYp9mE2LnZhNmF!5e0!3m2!1sar!2sly!4v1710000000000!5m2!1sar!2sly"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="مركز سفراء العلم للتدريب والتطوير — حي الأندلس، شارع البريد، طرابلس"
+                style="pointer-events:none; width:100%; border-radius:inherit;"
+              ></iframe>
+            </div>
+            <div style="display:flex; gap:0.75rem; margin-top:1rem; flex-wrap:wrap;">
+              <button type="button" class="pop-btn pop-btn-primary pop-btn-sm js-open-maps" data-action="open-maps" data-maps-mode="directions" style="width:100%; justify-content:center;">
+                🧭 <span class="en-text">Get Turn-by-Turn Directions</span><span class="ar-text">الاتجاهات خطوة بخطوة</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arrival Guide -->
+        <div class="venue-arrival-guide">
+          <h3 class="venue-arrival-title">
+            <span class="en-text">🗺️ How to Reach Sofaraa Al-Elm Center</span>
+            <span class="ar-text" style="direction:rtl;">🗺️ كيف تصل إلى مركز سفراء العلم</span>
+          </h3>
+          <div class="venue-arrival-steps">
+            <div class="venue-arrival-step">
+              <div class="venue-step-num">01</div>
+              <div>
+                <strong class="en-text">Head to Al-Andalus District</strong>
+                <strong class="ar-text" style="direction:rtl;">توجه إلى حي الأندلس</strong><br>
+                <span class="en-text">Navigate towards Hay Al-Andalus in central Tripoli using the directions button above.</span>
+                <span class="ar-text" style="direction:rtl;">توجه إلى منطقة حي الأندلس في طرابلس مستعيناً بزر الاتجاهات أعلاه.</span>
+              </div>
+            </div>
+            <div class="venue-arrival-step">
+              <div class="venue-step-num">02</div>
+              <div>
+                <strong class="en-text">Turn into Al-Bareed Street</strong>
+                <strong class="ar-text" style="direction:rtl;">ادخل إلى شارع البريد</strong><br>
+                <span class="en-text">Turn onto شارع البريد (Al-Bareed Street). You will see the clear signage for مركز سفراء العلم للتدريب والتطوير.</span>
+                <span class="ar-text" style="direction:rtl;">ادخل إلى شارع البريد، وستجد لافتة مركز سفراء العلم للتدريب والتطوير بارزة وواضحة.</span>
+              </div>
+            </div>
+            <div class="venue-arrival-step">
+              <div class="venue-step-num">03</div>
+              <div>
+                <strong class="en-text">Check In at Reception</strong>
+                <strong class="ar-text" style="direction:rtl;">سجل دخولك عند الاستقبال</strong><br>
+                <span class="en-text">Walk inside, present your TalkLab boarding pass at the reception desk, and enter the Boardroom Suite.</span>
+                <span class="ar-text" style="direction:rtl;">ادخل للمركز، وأظهر تذكرتك الرقمية لدى موظف الاستقبال، وتفضل إلى قاعة المحادثة.</span>
+              </div>
+            </div>
+            <div class="venue-arrival-step">
+              <div class="venue-step-num">04</div>
+              <div>
+                <strong class="en-text">Grab a Coffee &amp; Enjoy</strong>
+                <strong class="ar-text" style="direction:rtl;">اطلب قهوتك وابدأ</strong><br>
+                <span class="en-text">Avail member discounts at the in-house cafe lounge. Immersion sessions kick off sharp on time!</span>
+                <span class="ar-text" style="direction:rtl;">استفد من خصم الأعضاء في مقهى المركز، وانطلق في تجربة المحادثة الممتعة!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         COMMUNITY DEBATE TOPIC POLL & DASHBOARD
+         ======================================================================== -->
+    <section class="section" id="dashboard">
+      <div class="container" style="max-width:860px;">
+        <div class="section-header">
+          <span class="pop-badge gold">Community Voice</span>
+          <h2 class="section-title">Vote On Next Saturday's Debate</h2>
+          <p class="section-subtitle">
+            At TalkLab, our members pick what we debate. Cast your vote below to shape this weekend's topic!
+          </p>
+        </div>
+
+        <div class="pop-card community-poll-card" style="padding:2rem 1.75rem;">
+          <div class="poll-header-row" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem; margin-bottom:1.5rem;">
+            <span class="pop-badge coral">Active Voting Poll</span>
+            <span id="poll-total-votes-label" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:800; color:var(--text-muted);">184 Votes Cast</span>
+          </div>
+
+          <div id="community-poll-box">
+            <!-- Dynamically populated by app.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       FOOTER
+       ======================================================================== -->
+  <footer style="background-color: var(--bg-surface); border-top: var(--border-width) solid var(--border-color); padding: 4rem 0 2rem 0;">
+    <div class="container">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:2rem; margin-bottom:3rem;">
+        <div style="display:flex; align-items:center; gap:1.25rem;">
+          <div class="footer-brand-logo-big" id="footer-logo-container">
+            <img src="assets/logo-cream.png" alt="TalkLab Logo" class="brand-logo-img" id="footer-brand-logo">
+          </div>
+          <div>
+            <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
+              <span style="font-family:var(--font-display); font-size:2rem; font-weight:900; line-height:1; color:var(--text-main);">TalkLab</span>
+              <span class="brand-country-pill">🇱🇾 TRIPOLI</span>
+            </div>
+            <div style="font-family:var(--font-mono); font-size:0.85rem; font-weight:800; color:var(--color-primary);">
+              <span class="en-text">Tripoli's English Conversation Club</span>
+              <span class="ar-text">نادي المحادثة الإنجليزية في طرابلس</span>
+            </div>
+            <div style="font-size:0.82rem; color:var(--text-muted); margin-top:0.25rem;">
+              <span class="en-text">Hosted weekly at <strong class="js-open-maps" data-action="open-maps" style="color:var(--color-primary); cursor:pointer;" title="Open in Google Maps">مركز سفراء العلم</strong> (People &amp; Spaces) • Hay Al-Andalus ↗</span>
+              <span class="ar-text">يُقام أسبوعياً في <strong class="js-open-maps" data-action="open-maps" style="color:var(--color-primary); cursor:pointer;" title="افتح في خرائط جوجل">مركز سفراء العلم</strong> • حي الأندلس، شارع البريد ↗</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+          <button class="pop-btn pop-btn-primary" data-action="open-booking">
+            Book Next Session (30 LYD)
+          </button>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; border-top:1.5px dashed var(--border-color); padding-top:1.5rem; font-size:0.85rem; color:var(--text-muted); flex-wrap:wrap; gap:1rem;">
+        <div>© 2026 TalkLab English Conversation Club. All rights reserved.</div>
+        <div style="font-weight:800; color:var(--text-main);">"This is your space to breathe, learn, and create" <span id="secret-footer-key" style="cursor:pointer; opacity:0.5; margin-left:6px; font-size:0.9rem;" title="Secret Archive">🗝️</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       BOOKING MODAL & DIGITAL BOARDING PASS
+       ======================================================================== -->
+  <div class="modal-backdrop" id="booking-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <button class="modal-close-cross" id="modal-close-btn" aria-label="Close dialog">✕</button>
+
+      <!-- Step 1: Form -->
+      <div id="booking-form-step">
+        <span class="pop-badge blue" style="margin-bottom:0.5rem;">Fast Registration</span>
+        <h3 id="modal-title" style="font-size:1.7rem; font-weight:900; margin-bottom:0.35rem; padding-right:2.5rem; line-height:1.2;">Reserve Your Roundtable Seat</h3>
+        <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1.5rem; line-height:1.5;">
+          Flat Fee: <strong style="color:var(--color-primary);">30 LYD</strong> paid upon arrival at the venue. Strictly limited member seating.
+        </p>
+
+        <form id="booking-form">
+          <label style="font-family:var(--font-mono); font-size:0.85rem; font-weight:800; text-transform:uppercase; display:block; margin-bottom:0.35rem;">
+            Select Weekly Session
+          </label>
+          <select class="neo-select" id="book-session-select">
+            <option value="saturday">Saturday Immersion (12:00 PM – 4:00 PM) — 30 LYD</option>
+            <option value="tuesday">Tuesday Twilight (4:00 PM – 7:00 PM) — 30 LYD</option>
+          </select>
+
+          <label style="font-family:var(--font-mono); font-size:0.85rem; font-weight:800; text-transform:uppercase; display:block; margin-bottom:0.35rem;">
+            Your Name
+          </label>
+          <input type="text" class="neo-input" id="book-name" placeholder="e.g. Tariq Mansour" required>
+
+          <label style="font-family:var(--font-mono); font-size:0.85rem; font-weight:800; text-transform:uppercase; display:block; margin-bottom:0.35rem;">
+            WhatsApp / Phone Number
+          </label>
+          <input type="tel" class="neo-input" id="book-phone" placeholder="e.g. +218 91 234 5678" required>
+
+          <label style="font-family:var(--font-mono); font-size:0.85rem; font-weight:800; text-transform:uppercase; display:block; margin-bottom:0.35rem;">
+            Speaking Level & Comfort
+          </label>
+          <select class="neo-select" id="book-level">
+            <option value="Explorer (A2-B1)">Explorer — Good passive understanding, looking for speaking courage</option>
+            <option value="Conversationalist (B1-B2)" selected>Conversationalist — Can chat, looking for speed & fluid confidence</option>
+            <option value="Fluent Speaker (B2-C1)">Fluent — Looking for intellectual debate & sophisticated vocabulary</option>
+          </select>
+
+          <div style="background-color:var(--bg-surface-elevated); border:var(--border-width) solid var(--border-color); border-radius:var(--radius-sm); padding:0.85rem 1rem; margin-bottom:1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+            <span style="font-weight:700; font-size:0.9rem;">Assigned Chair:</span>
+            <strong id="book-seat-display" style="color:var(--color-primary); font-family:var(--font-mono); font-size:1.02rem;">Any Available Seat</strong>
+          </div>
+
+          <button type="submit" class="pop-btn pop-btn-primary pop-btn-lg" style="width:100%; justify-content:center;">
+            <span>Verify via WhatsApp OTP (30 LYD) 💬</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Step 2: WhatsApp One-Time Password (OTP) Verification -->
+      <div id="booking-otp-step" style="display:none;">
+        <div class="otp-step-container">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="whatsapp-brand-pill">
+              <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.4-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.78 2.71 4.3 3.8 2.53 1.09 2.53.73 2.99.69.45-.05 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.1-.23-.17-.48-.29z"/></svg>
+              <span><span class="en-text">WhatsApp Verification</span><span class="ar-text">التحقق عبر واتساب</span></span>
+            </div>
+            <span class="pop-badge mint" id="otp-status-badge">⚡ <span class="en-text">Active Code</span><span class="ar-text">رمز نشط</span></span>
+          </div>
+
+          <div>
+            <h3 style="font-size:1.6rem; font-weight:900; margin-bottom:0.25rem;">
+              <span class="en-text">Enter 6-Digit Passcode</span>
+              <span class="ar-text">أدخل رمز التحقق (6 أرقام)</span>
+            </h3>
+            <p style="font-size:0.9rem; color:var(--text-muted);">
+              <span class="en-text">We dispatched an authentication code to your WhatsApp number.</span>
+              <span class="ar-text">أرسلنا رمز تأكيد إلى رقم الواتساب الخاص بك.</span>
+            </p>
+          </div>
+
+          <!-- Destination Phone Box -->
+          <div class="otp-destination-card">
+            <div style="display:flex; align-items:center; gap:0.6rem;">
+              <span style="font-size:1.3rem;">📱</span>
+              <div>
+                <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">
+                  <span class="en-text">Recipient WhatsApp</span>
+                  <span class="ar-text">رقم الواتساب المستلم</span>
+                </div>
+                <div class="otp-phone-text" id="otp-phone-target">+218 91 000 0000</div>
+              </div>
+            </div>
+            <button type="button" class="otp-edit-phone-btn" id="otp-back-btn">
+              ✏️ <span class="en-text">Edit Number</span><span class="ar-text">تعديل الرقم</span>
+            </button>
+          </div>
+
+          <!-- Simulated Live WhatsApp Incoming Toast Notification -->
+          <div class="whatsapp-sim-toast" id="whatsapp-sim-toast">
+            <div class="whatsapp-sim-header">
+              <span class="whatsapp-sim-sender">
+                <span>🟢</span> <span class="en-text">TalkLab Official Bot (Verified)</span><span class="ar-text">بوت تاكلاب الرسمي (موثق)</span>
+              </span>
+              <span style="font-family:var(--font-mono); font-size:0.72rem;"><span class="en-text">Just Now • WhatsApp</span><span class="ar-text">الآن • واتساب</span></span>
+            </div>
+            <div class="whatsapp-sim-bubble">
+              <div>
+                <span class="en-text">Your TalkLab reservation verification code is below. It expires in <strong>3 minutes</strong>:</span>
+                <span class="ar-text">رمز تأكيد حجزك في تاكلاب أدناه، صالح لمدة <strong>3 دقائق</strong>:</span>
+              </div>
+              <div class="whatsapp-sim-code-row">
+                <span class="whatsapp-sim-otp-code" id="sim-otp-code-text">------</span>
+                <button type="button" class="whatsapp-autofill-btn" id="whatsapp-autofill-btn" title="Click to auto-fill the 6 digits">
+                  ⚡ <span class="en-text">Auto-Fill Code</span><span class="ar-text">إدخال تلقائي</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6 PIN Input Cells -->
+          <div>
+            <div class="otp-inputs-grid" id="otp-inputs-container">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-digit-cell" id="otp-cell-0" autocomplete="one-time-code">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-digit-cell" id="otp-cell-1">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-digit-cell" id="otp-cell-2">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-digit-cell" id="otp-cell-3">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-digit-cell" id="otp-cell-4">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-digit-cell" id="otp-cell-5">
+            </div>
+            <div id="otp-error-alert" class="otp-alert otp-alert-error">
+              <span>⚠️</span> <span id="otp-error-text">Invalid code. Please check and try again.</span>
+            </div>
+          </div>
+
+          <!-- Meta Row: Expiry Countdown & Resend Code -->
+          <div class="otp-meta-bar">
+            <div class="otp-timer-display" id="otp-timer-wrap">
+              <span>⏱️ <span class="en-text">Code expires in:</span><span class="ar-text">ينتهي الرمز خلال:</span></span>
+              <span id="otp-timer-val" style="color:var(--color-primary); font-weight:900;">03:00</span>
+            </div>
+            <button type="button" class="otp-resend-btn" id="otp-resend-btn" disabled>
+              Resend Code (30s)
+            </button>
+          </div>
+
+          <!-- Actions: Verify Button & External WhatsApp link -->
+          <div style="display:flex; flex-direction:column; gap:0.65rem;">
+            <button type="button" class="pop-btn pop-btn-primary pop-btn-lg" id="otp-verify-submit-btn" style="width:100%; justify-content:center;">
+              <span>✓ <span class="en-text">Verify OTP &amp; Confirm Seat (30 LYD)</span><span class="ar-text">تحقق من الرمز وتأكيد المقعد (30 د.ل)</span></span>
+            </button>
+            <a href="#" target="_blank" class="pop-btn pop-btn-surface pop-btn-sm" id="otp-open-wa-btn" style="width:100%; justify-content:center;">
+              <span>💬 <span class="en-text">Open TalkLab on WhatsApp Directly ↗</span><span class="ar-text">فتح محادثة تاكلاب في واتساب مباشرة ↗</span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Confirmation Ticket -->
+      <div id="booking-confirmation-step" style="display:none;">
+        <div style="text-align:center; margin-bottom:1.25rem;">
+          <div style="font-size:3rem; margin-bottom:0.25rem;">🎉</div>
+          <h3 style="font-size:1.8rem; font-weight:900; color:var(--color-primary);">You're on the Guestlist!</h3>
+          <p style="font-size:0.95rem; color:var(--text-muted);">
+            Your seat at the roundtable has been locked in real-time.
+          </p>
+        </div>
+
+        <div id="generated-ticket-container"></div>
+
+        <div style="margin-top:1.5rem; text-align:center;">
+          <button class="pop-btn pop-btn-surface" onclick="BookingSystem.closeBookingModal()" style="width:100%;">
+            Close & Back to Games
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Canvas for Confetti -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- ========================================================================
+       FLOATING MINI MUSIC PLAYER (Compact Vinyl Disc, Expands on Hover / Tap)
+       ======================================================================== -->
+  <div class="lofi-floating-player" id="lofi-floating-player" aria-label="TalkLab Lo-Fi player">
+    <!-- Mini Disc Trigger (Always visible, spinning vinyl record) -->
+    <div class="lofi-disc-trigger" id="lofi-disc-trigger" title="TalkLab Lo-Fi Music (Click or Hover to expand)">
+      <div class="lofi-vinyl" id="lofi-vinyl-disc">
+        <div class="lofi-vinyl-center">
+          <span class="lofi-mini-status" id="lofi-mini-status">▶</span>
+        </div>
+      </div>
+      <div class="lofi-disc-pulse" id="lofi-disc-pulse"></div>
+    </div>
+
+    <!-- Expanded Player Controls (Revealed smoothly on hover / tap) -->
+    <div class="lofi-expanded-content" id="lofi-expanded-content">
+      <!-- Track Info -->
+      <div class="lofi-track-info">
+        <div class="lofi-track-name" id="lofi-track-name">TalkLab Lo-Fi Chill ☕</div>
+        <div class="lofi-track-sub" id="lofi-track-sub">Super Lofi World • 4-Min Loop</div>
+      </div>
+
+      <!-- EQ Visualizer -->
+      <div class="lofi-eq-visual" id="lofi-eq-visual">
+        <span class="lofi-eq-b"></span>
+        <span class="lofi-eq-b"></span>
+        <span class="lofi-eq-b"></span>
+        <span class="lofi-eq-b"></span>
+        <span class="lofi-eq-b"></span>
+      </div>
+
+      <!-- Controls -->
+      <div class="lofi-controls">
+        <!-- Live Loop Indicator (0:00 - 4:00) -->
+        <div class="lofi-loop-pill" title="Song looped 0:00 to 4:00 with smooth fade">
+          <span>🔁</span>
+          <span id="lofi-loop-timer">0:00 / 4:00</span>
+        </div>
+
+        <!-- Volume -->
+        <div class="lofi-vol-wrap">
+          <span class="lofi-vol-icon">🔈</span>
+          <input type="range" class="lofi-vol-slider" id="lofi-floating-vol" min="0" max="1" step="0.05" value="0.6" aria-label="Volume">
+        </div>
+
+        <!-- Play/Pause -->
+        <button class="lofi-play-btn" id="lofi-play-btn" title="Play / Pause lofi music">
+          <span class="lofi-play-icon">▶</span>
+        </button>
+      </div>
+
+      <!-- Collapse / Close button -->
+      <button class="lofi-close-btn" id="lofi-close-btn" title="Collapse into disc">✕</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/audio.js"></script>
+  <script src="js/confetti.js"></script>
+  <script src="js/slotmachine.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/arcade.js"></script>
+  <script src="js/booking.js"></script>
+  <script src="js/eastereggs.js"></script>
+  <script src="js/slanglab.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Native HTML5 Lo-Fi Background Audio Player (Super Lofi World • 0:00 - 4:00 Loop) -->
+  <audio id="lofi-audio-player" src="assets/lofi-song.mp3" preload="auto" playsinline></audio>
+
+  <!-- Lofi Floating Player — HTML5 Audio with 0:00 - 4:00 Loop, Fade Out & Autoplay -->
+  <script>
+    (function() {
+      // Requested Song: Super Lofi World (0:00 - 4:00 Loop with smooth fade-out and autoplay)
+      const LOOP_START = 0;
+      const LOOP_END = 240; // 4 minutes exactly (240s)
+      const FADE_OUT_DURATION = 5; // Start fade-out at 235s (5s before loop end)
+      const FADE_IN_DURATION = 3;  // Smooth 3-second fade-in after restart
+
+      const audio       = document.getElementById('lofi-audio-player');
+      const player      = document.getElementById('lofi-floating-player');
+      const discTrigger = document.getElementById('lofi-disc-trigger');
+      const playBtn     = document.getElementById('lofi-play-btn');
+      const playIcon    = playBtn ? playBtn.querySelector('.lofi-play-icon') : null;
+      const vinyl       = document.getElementById('lofi-vinyl-disc');
+      const miniStatus  = document.getElementById('lofi-mini-status');
+      const eqViz       = document.getElementById('lofi-eq-visual');
+      const loopTimer   = document.getElementById('lofi-loop-timer');
+      const volSlider   = document.getElementById('lofi-floating-vol');
+      const closeBtn    = document.getElementById('lofi-close-btn');
+      const navBtn      = document.getElementById('nav-sound-btn');
+
+      if (!audio) return;
+
+      let baseVolume = volSlider ? parseFloat(volSlider.value) : 0.6;
+      let isFadingIn = false;
+      let isRestarting = false;
+      let playerHidden = false;
+
+      audio.volume = baseVolume;
+
+      function updateUI(playing) {
+        if (playIcon) playIcon.textContent = playing ? '⏸' : '▶';
+        if (miniStatus) miniStatus.textContent = playing ? '⏸' : '▶';
+        if (vinyl) vinyl.classList.toggle('spinning', playing);
+        if (eqViz) eqViz.classList.toggle('active', playing);
+        if (window.SoundFX && typeof window.SoundFX.updateAudioButtons === 'function') {
+          window.SoundFX.updateAudioButtons(!playing);
+        }
+      }
+
+      function updateTimerDisplay(seconds) {
+        if (!loopTimer) return;
+        const bounded = Math.min(LOOP_END, Math.max(0, Math.floor(seconds)));
+        const mins = Math.floor(bounded / 60);
+        const secs = String(bounded % 60).padStart(2, '0');
+        loopTimer.textContent = `${mins}:${secs} / 4:00`;
+      }
+
+      function handleLoopRestart() {
+        if (isRestarting) return;
+        isRestarting = true;
+        isFadingIn = true;
+
+        audio.volume = 0;
+        audio.currentTime = LOOP_START;
+        const p = audio.play();
+        if (p && typeof p.catch === 'function') p.catch(() => {});
+
+        const startTime = Date.now();
+        const fadeTimer = setInterval(() => {
+          if (audio.paused) {
+            clearInterval(fadeTimer);
+            isFadingIn = false;
+            isRestarting = false;
+            return;
+          }
+
+          const elapsed = (Date.now() - startTime) / 1000;
+          if (elapsed >= FADE_IN_DURATION) {
+            clearInterval(fadeTimer);
+            isFadingIn = false;
+            isRestarting = false;
+            audio.volume = baseVolume;
+          } else {
+            const ratio = elapsed / FADE_IN_DURATION;
+            audio.volume = Math.max(0, Math.min(1, baseVolume * ratio));
+          }
+        }, 80);
+      }
+
+      // Time update event: monitor 4:00 boundary and smooth 5s fade-out
+      audio.addEventListener('timeupdate', function() {
+        const ct = audio.currentTime;
+        updateTimerDisplay(ct);
+
+        if (ct >= LOOP_END) {
+          handleLoopRestart();
+          return;
+        }
+
+        // Smooth volume fade out in last 5 seconds (235s - 240s)
+        const fadeOutStart = LOOP_END - FADE_OUT_DURATION;
+        if (ct >= fadeOutStart && !isFadingIn) {
+          const remaining = Math.max(0, LOOP_END - ct);
+          const ratio = remaining / FADE_OUT_DURATION; // 1 down to 0
+          audio.volume = Math.max(0, Math.min(1, baseVolume * ratio));
+        } else if (!isFadingIn) {
+          audio.volume = baseVolume;
+        }
+      });
+
+      audio.addEventListener('ended', function() {
+        handleLoopRestart();
+      });
+
+      audio.addEventListener('play', function() {
+        updateUI(true);
+      });
+
+      audio.addEventListener('pause', function() {
+        if (!isRestarting) updateUI(false);
+      });
+
+      function togglePlay() {
+        if (audio.paused) {
+          audio.play().catch(() => {});
+          if (window.SoundFX && typeof window.SoundFX.setMuted === 'function') {
+            window.SoundFX.setMuted(false);
+          }
+        } else {
+          audio.pause();
+          if (window.SoundFX && typeof window.SoundFX.setMuted === 'function') {
+            window.SoundFX.setMuted(true);
+          }
+        }
+      }
+
+      // Expand on disc trigger click
+      if (discTrigger) {
+        discTrigger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (player.classList.contains('is-expanded')) {
+            togglePlay();
+          } else {
+            player.classList.add('is-expanded');
+          }
+        });
+      }
+
+      if (playBtn) {
+        playBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          togglePlay();
+        });
+      }
+
+      if (volSlider) {
+        volSlider.addEventListener('input', function() {
+          baseVolume = parseFloat(this.value);
+          if (!isFadingIn) {
+            audio.volume = baseVolume;
+          }
+          const icon = document.querySelector('.lofi-vol-icon');
+          if (icon) {
+            icon.textContent = baseVolume === 0 ? '🔇' : baseVolume < 0.4 ? '🔈' : '🔊';
+          }
+        });
+      }
+
+      // Close / collapse button: collapses back into disc
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          player.classList.remove('is-expanded');
+        });
+      }
+
+      // Clicking outside collapses the expanded player
+      document.addEventListener('click', function(e) {
+        if (player && player.classList.contains('is-expanded')) {
+          if (!player.contains(e.target) && (!navBtn || !navBtn.contains(e.target))) {
+            player.classList.remove('is-expanded');
+          }
+        }
+      });
+
+      if (navBtn) {
+        navBtn.addEventListener('click', function() {
+          if (playerHidden) {
+            playerHidden = false;
+            player.classList.remove('lofi-player-hidden');
+          } else {
+            togglePlay();
+          }
+        });
+      }
+
+      // Autoplay with instant gesture unlocking
+      function attemptAutoplay() {
+        const promise = audio.play();
+        if (promise !== undefined) {
+          promise.then(() => {
+            updateUI(true);
+          }).catch(() => {
+            // Browser blocked unmuted autoplay without prior interaction:
+            // Unlock audio on the very first touch, click, scroll or keypress!
+            const unlockAudio = function() {
+              if (audio.paused) {
+                audio.play().then(() => updateUI(true)).catch(() => {});
+              }
+            };
+            ['pointerdown', 'touchstart', 'click', 'keydown', 'scroll', 'wheel'].forEach(evt => {
+              window.addEventListener(evt, unlockAudio, { capture: true, once: true, passive: true });
+            });
+          });
+        }
+      }
+
+      // Start autoplay as soon as possible
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attemptAutoplay);
+      } else {
+        attemptAutoplay();
+      }
+
+      // Global interface
+      window.LofiSoundscape = {
+        toggle: togglePlay,
+        play: function() { audio.play().catch(() => {}); },
+        pause: function() { audio.pause(); },
+        setVolume: function(v) {
+          baseVolume = v;
+          if (volSlider) volSlider.value = v;
+          if (!isFadingIn) audio.volume = v;
+        },
+        isPlaying: function() { return !audio.paused; },
+        init: function() {
+          if (audio.paused) attemptAutoplay();
+        }
+      };
+    })();
+  </script>
+</body>
+</html>

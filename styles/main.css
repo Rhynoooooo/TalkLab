@@ -1,0 +1,992 @@
+/* ==========================================================================
+   TALKLAB 2.0 - NEO-POP YOUTH & INTERACTIVE DESIGN SYSTEM
+   Vibrant, playful, alive, non-traditional (NOT corporate, NOT a chore!)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+
+:root {
+  /* ------------------------------------------------------------------------
+     DEFAULT PALETTE: ⚡ ELECTRIC BLUE POP
+     ------------------------------------------------------------------------ */
+  --color-primary: #2F42F0;
+  --color-primary-dark: #1E2DB8;
+  --color-primary-light: #EEF1FE;
+  
+  --color-accent-gold: #FFC42B;
+  --color-accent-gold-dark: #D49B0E;
+  --color-accent-gold-light: #FFF8E6;
+
+  --color-accent-coral: #FF4742;
+  --color-accent-coral-dark: #D42823;
+  --color-accent-coral-light: #FFEFEF;
+
+  --color-accent-mint: #15BD66;
+  --color-accent-mint-light: #E7FAF0;
+
+  --color-periwinkle: #ADC0E8;
+  --color-lilac: #D8CEF8;
+
+  --bg-canvas: #FFFBF2;
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #FFF7E8;
+  --bg-surface-subtle: #F6EEE0;
+
+  --text-main: #13172E;
+  --text-muted: #565D80;
+  --text-faint: #8E96BD;
+  --text-inverted: #FFFFFF;
+
+  --border-color: #13172E;
+  --border-width: 2.5px;
+  --shadow-offset: 4px;
+  --shadow-color: #13172E;
+  --shadow-pop: var(--shadow-offset) var(--shadow-offset) 0px var(--shadow-color);
+  --shadow-pop-hover: 6px 6px 0px var(--shadow-color);
+  --shadow-pop-active: 1px 1px 0px var(--shadow-color);
+
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  --font-display: 'Outfit', 'Cairo', sans-serif;
+  --font-body: 'Plus Jakarta Sans', 'Cairo', sans-serif;
+  --font-mono: 'Space Grotesk', 'Cairo', monospace;
+  --font-arabic: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Arial, sans-serif;
+
+  --transition-fast: 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-bounce: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-smooth: 0.28s ease;
+
+  --container-max: 1220px;
+}
+
+/* --------------------------------------------------------------------------
+   THEME 1: ⚡ ELECTRIC POP (Default Vibrant Youth Neobrutalism)
+   -------------------------------------------------------------------------- */
+:root,
+[data-palette="pop"],
+[data-palette="electric"] {
+  --theme-name: 'pop';
+  --logo-box-bg: #FFF8EE;
+  --logo-box-border: #13172E;
+}
+
+/* --------------------------------------------------------------------------
+   THEME 2: 🌙 MIDNIGHT CYBER (Deep Neon Gaming Lounge)
+   -------------------------------------------------------------------------- */
+[data-palette="cyber"],
+[data-palette="midnight"] {
+  --theme-name: 'cyber';
+  --logo-box-bg: #3D46A5;
+  --logo-box-border: #38426E;
+  --color-primary: #5965F3;
+  --color-primary-dark: #3F4BD6;
+  --color-primary-light: rgba(89, 101, 243, 0.18);
+
+  --color-accent-gold: #FFE600;
+  --color-accent-gold-dark: #C7B300;
+  --color-accent-gold-light: rgba(255, 230, 0, 0.15);
+
+  --color-accent-coral: #FF4D78;
+  --color-accent-coral-dark: #D42850;
+  --color-accent-coral-light: rgba(255, 77, 120, 0.15);
+
+  --color-accent-mint: #00F59B;
+  --color-accent-mint-light: rgba(0, 245, 155, 0.15);
+
+  --bg-canvas: #0C0F1D;
+  --bg-surface: #151A31;
+  --bg-surface-elevated: #1D2342;
+  --bg-surface-subtle: #232B4F;
+
+  --text-main: #F8F9FE;
+  --text-muted: #A3ADDA;
+  --text-faint: #6A75A5;
+  --text-inverted: #0C0F1D;
+
+  --border-color: #38426E;
+  --shadow-color: #05070E;
+}
+
+/* --------------------------------------------------------------------------
+   THEME 3: 🔥 SUNSET EMBER (Warm Terracotta & Cozy Café Glow)
+   -------------------------------------------------------------------------- */
+[data-palette="ember"],
+[data-palette="terracotta"] {
+  --theme-name: 'ember';
+  --logo-box-bg: #AB3731;
+  --logo-box-border: #1D1815;
+  --color-primary: #A8342D;
+  --color-primary-dark: #87251F;
+  --color-primary-light: #FDF0EE;
+
+  --color-accent-gold: #F5C266;
+  --color-accent-gold-dark: #C7963A;
+  --color-accent-gold-light: #FFF8EB;
+
+  --color-accent-coral: #E05445;
+  --color-accent-coral-dark: #B53629;
+  --color-accent-coral-light: #FDF1EF;
+
+  --color-accent-mint: #27AE60;
+  --color-accent-mint-light: #EBF8F1;
+
+  --bg-canvas: #FAF3E8;
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #F5E8D4;
+  --bg-surface-subtle: #EFE0C7;
+
+  --text-main: #1D1815;
+  --text-muted: #64564E;
+  --text-faint: #98877D;
+
+  --border-color: #1D1815;
+  --shadow-color: #1D1815;
+}
+
+/* Base Resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-canvas);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+  transition: background-color var(--transition-smooth), color var(--transition-smooth);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--text-main);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+p {
+  color: var(--text-muted);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Layout Utilities */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (max-width: 680px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+.section {
+  padding: 5.5rem 0;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 3rem 0;
+  }
+}
+
+.section-header {
+  text-align: center;
+  max-width: 740px;
+  margin: 0 auto 3.5rem auto;
+}
+
+/* Playful Neo-Pop Sticker Tags */
+.pop-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1.15rem;
+  border-radius: var(--radius-full);
+  border: var(--border-width) solid var(--border-color);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  box-shadow: 2px 2px 0px var(--shadow-color);
+  margin-bottom: 1rem;
+}
+
+.pop-badge.blue {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.pop-badge.gold {
+  background-color: var(--color-accent-gold);
+  color: var(--text-main);
+}
+
+.pop-badge.coral {
+  background-color: var(--color-accent-coral);
+  color: #FFFFFF;
+}
+
+.pop-badge.mint {
+  background-color: var(--color-accent-mint);
+  color: #FFFFFF;
+}
+
+.section-title {
+  font-size: 3.2rem;
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.035em;
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2.3rem;
+  }
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   TACTILE NEO-POP BUTTONS
+   -------------------------------------------------------------------------- */
+.pop-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid var(--border-color);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-pop);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.pop-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-pop-hover);
+}
+
+.pop-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: var(--shadow-pop-active);
+}
+
+.pop-btn-primary {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.pop-btn-gold {
+  background-color: var(--color-accent-gold);
+  color: var(--text-main);
+}
+
+.pop-btn-coral {
+  background-color: var(--color-accent-coral);
+  color: #FFFFFF;
+}
+
+.pop-btn-surface {
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+}
+
+.pop-btn-sm {
+  padding: 0.5rem 1.15rem;
+  font-size: 0.88rem;
+  border-radius: var(--radius-sm);
+  box-shadow: 2.5px 2.5px 0px var(--shadow-color);
+}
+
+.pop-btn-lg {
+  padding: 1.1rem 2.4rem;
+  font-size: 1.2rem;
+}
+
+/* --------------------------------------------------------------------------
+   TACTILE NEO-POP CARDS
+   -------------------------------------------------------------------------- */
+.pop-card {
+  background-color: var(--bg-surface);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-pop);
+  padding: 2rem;
+  position: relative;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.pop-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow-pop-hover);
+}
+
+/* --------------------------------------------------------------------------
+   HEADER & INTERACTIVE PALETTE SWITCHER BAR
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: var(--bg-canvas);
+  border-bottom: var(--border-width) solid var(--border-color);
+  transition: background-color var(--transition-smooth);
+}
+
+.site-header .container,
+.site-header .header-inner {
+  max-width: 100% !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 84px;
+  gap: 0.5rem;
+}
+
+/* Smooth Brand Logo Presentation (Zero rotation, clean badge) */
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+}
+
+.brand-logo-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  overflow: hidden;
+  background-color: var(--logo-box-bg, #FFF8EE);
+  border: var(--border-width) solid var(--logo-box-border, var(--border-color));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 3px 3px 0px var(--shadow-color);
+  transition: transform var(--transition-bounce), background-color var(--transition-fast), border-color var(--transition-fast);
+  padding: 3px;
+  flex-shrink: 0;
+}
+
+.brand-link:hover .brand-logo-box {
+  transform: scale(1.06);
+}
+
+.brand-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.brand-name-text {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: var(--text-main);
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.brand-tag-text {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  text-transform: uppercase;
+}
+
+/* Interactive Color Mood Pill Selector (Top Nav) */
+.palette-picker-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--bg-surface-elevated);
+  padding: 0.35rem 0.55rem;
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius-full);
+  box-shadow: 2px 2px 0px var(--shadow-color);
+}
+
+@media (max-width: 990px) {
+  .palette-picker-bar {
+    display: none;
+  }
+}
+
+.palette-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: none;
+  background: transparent;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.palette-btn:hover, .palette-btn.active {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.palette-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid #13172E;
+}
+
+/* --------------------------------------------------------------------------
+   HEADER ACTIONS & CONTROLS (Horizontally Aligned, Zero Vertical Stacking)
+   -------------------------------------------------------------------------- */
+.header-actions-group {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  flex-wrap: nowrap !important;
+  gap: 0.35rem !important;
+  flex-shrink: 0 !important;
+}
+
+/* Tactile Segmented Theme Switcher Bar (Normal, Elegant TalkLab Aesthetic) */
+.theme-switcher-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background-color: var(--bg-surface-elevated);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius-full);
+  padding: 3px;
+  box-shadow: 2.5px 2.5px 0px var(--shadow-color);
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.theme-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.28rem 0.5rem;
+  border-radius: var(--radius-full);
+  border: 1.5px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.theme-pill-btn:hover {
+  color: var(--text-main);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.theme-pill-btn.active {
+  background-color: var(--color-primary) !important;
+  color: #FFFFFF !important;
+  border-color: var(--border-color) !important;
+  box-shadow: 1.5px 1.5px 0px var(--shadow-color) !important;
+}
+
+.theme-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-color);
+  flex-shrink: 0;
+}
+.theme-dot.dot-pop { background-color: #2F42F0; }
+.theme-dot.dot-cyber { background-color: #00F59B; }
+.theme-dot.dot-ember { background-color: #FF4A22; }
+
+/* Mobile Theme Quick Cycle Button (Compact for Narrow Screens) */
+.mobile-theme-cycle-btn {
+  display: none;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.32rem 0.55rem;
+  border-radius: var(--radius-full);
+  border: var(--border-width) solid var(--border-color);
+  background: var(--bg-surface-elevated);
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px var(--shadow-color);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.mobile-theme-cycle-btn:hover,
+.mobile-theme-cycle-btn:active {
+  transform: scale(0.96);
+}
+
+.mobile-theme-arrow {
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+/* Merged Unified Sound & Audio Toggle */
+.sound-toggle-btn,
+.unified-audio-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.32rem 0.65rem;
+  border-radius: var(--radius-full);
+  border: var(--border-width) solid var(--border-color);
+  background-color: var(--color-accent-gold);
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px var(--shadow-color);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.header-book-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.32rem 0.72rem;
+  font-size: 0.76rem;
+  font-weight: 800;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.sound-toggle-btn:hover,
+.unified-audio-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--shadow-color);
+}
+
+.sound-toggle-btn:active,
+.unified-audio-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px var(--shadow-color);
+}
+
+.sound-toggle-btn.audio-muted,
+.unified-audio-btn.audio-muted {
+  background-color: var(--bg-surface-elevated);
+  color: var(--text-muted);
+  opacity: 0.85;
+}
+
+/* Drawer Theme Cards */
+.drawer-theme-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.6rem 0 0.85rem 0;
+}
+
+.drawer-theme-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid var(--border-color);
+  background: var(--bg-surface-elevated);
+  box-shadow: 2.5px 2.5px 0px var(--shadow-color);
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition-fast);
+  width: 100%;
+}
+
+.drawer-theme-card:hover {
+  transform: translateY(-1px);
+}
+
+.drawer-theme-card.active {
+  border-color: var(--color-primary);
+  background: var(--bg-surface);
+  box-shadow: 3.5px 3.5px 0px var(--color-primary);
+}
+
+.drawer-theme-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-surface);
+  flex-shrink: 0;
+}
+
+.drawer-theme-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.drawer-theme-info strong {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.drawer-theme-info small {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.drawer-theme-check {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--color-primary);
+  display: none;
+}
+
+.drawer-theme-card.active .drawer-theme-check {
+  display: inline-block;
+}
+
+/* --------------------------------------------------------------------------
+   SUPER NEAT SEGMENTED NAV PILLS (Zero vertical wrapping, clean tactile tabs)
+   -------------------------------------------------------------------------- */
+.nav-pill-group {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  background-color: var(--bg-surface-elevated);
+  border: var(--border-width) solid var(--border-color);
+  padding: 0.25rem 0.35rem;
+  border-radius: var(--radius-full);
+  box-shadow: 2.5px 2.5px 0px var(--shadow-color);
+  white-space: nowrap;
+}
+
+@media (max-width: 1280px) {
+  .site-nav,
+  .nav-pill-group {
+    display: none !important;
+  }
+}
+
+.nav-pill-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.52rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--text-main);
+  white-space: nowrap;
+  line-height: 1;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  border: 1.5px solid transparent;
+}
+
+.nav-pill-link:hover {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.nav-pill-link.active {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  border-color: var(--border-color);
+  box-shadow: 1.5px 1.5px 0px var(--shadow-color);
+}
+
+.nav-pill-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+/* --------------------------------------------------------------------------
+   KINETIC MARQUEE BANNER
+   -------------------------------------------------------------------------- */
+.marquee-ribbon {
+  overflow: hidden;
+  user-select: none;
+  display: flex;
+  background-color: var(--color-accent-gold);
+  color: var(--text-main);
+  border-top: var(--border-width) solid var(--border-color);
+  border-bottom: var(--border-width) solid var(--border-color);
+  padding: 0.65rem 0;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(0.78rem, 3.2vw, 1.05rem);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.marquee-ribbon.primary {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 2rem;
+  flex-shrink: 0;
+  animation: marqueeRun 24s linear infinite;
+  align-items: center;
+}
+
+.marquee-ribbon:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeRun {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-text-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  white-space: nowrap;
+}
+
+.marquee-star {
+  font-size: 1.3rem;
+  color: var(--color-accent-coral);
+}
+
+/* --------------------------------------------------------------------------
+   FLOATING EMOJI REACTION PARTICLES
+   -------------------------------------------------------------------------- */
+.floating-emoji {
+  position: fixed;
+  pointer-events: none;
+  font-size: 2.2rem;
+  z-index: 99999;
+  animation: floatUpBurst 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes floatUpBurst {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(0.6) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-160px) scale(1.4) rotate(25deg);
+  }
+}
+
+/* Toast Notifications (Disabled per user instruction) */
+.toast-container {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 1.5rem;
+  background-color: var(--bg-surface);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-pop);
+  color: var(--text-main);
+  font-size: 0.95rem;
+  font-weight: 700;
+  min-width: 280px;
+  max-width: 420px;
+  animation: toastPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.toast.toast-leave {
+  animation: toastVanish 0.25s ease forwards;
+}
+
+@keyframes toastPop {
+  from { opacity: 0; transform: translateY(20px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes toastVanish {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(15px) scale(0.9); }
+}
+
+/* Mobile Nav Drawer */
+.mobile-nav-toggle {
+  display: none;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-sm);
+  border: var(--border-width) solid var(--border-color);
+  background-color: var(--bg-surface);
+  box-shadow: 2px 2px 0px var(--shadow-color);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 1280px) {
+  .mobile-nav-toggle {
+    display: flex;
+  }
+}
+
+.mobile-nav-drawer {
+  position: fixed;
+  top: 84px;
+  left: 0;
+  right: 0;
+  background-color: var(--bg-canvas);
+  border-bottom: var(--border-width) solid var(--border-color);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+  transform: translateY(-130%);
+  transition: transform var(--transition-bounce);
+  z-index: 999;
+}
+
+.mobile-nav-drawer.open {
+  transform: translateY(0);
+}
+
+.mobile-nav-drawer .nav-link {
+  font-size: 1.2rem;
+  padding: 0.75rem 0;
+  border-bottom: 1.5px dashed var(--border-color);
+}
+
+@media (max-width: 768px) {
+  .pop-btn {
+    white-space: normal !important;
+    text-align: center;
+  }
+  .pop-btn-lg {
+    padding: 0.85rem 1.25rem !important;
+    font-size: 1rem !important;
+  }
+}
+
+/* ==========================================================================
+   ARABIC TYPOGRAPHY (CAIRO NEO-GROTESQUE FOR FLAWLESS CURSIVE RENDERING)
+   ========================================================================== */
+.ar-clean,
+.ar-text,
+.ar-block,
+[lang="ar"],
+:lang(ar) {
+  font-family: var(--font-arabic) !important;
+  font-optical-sizing: auto;
+  letter-spacing: 0 !important;
+  word-spacing: normal !important;
+  font-feature-settings: "liga" 1, "calt" 1, "ccmp" 1 !important;
+  font-variant-ligatures: common-ligatures contextual !important;
+  text-rendering: optimizeLegibility !important;
+  font-style: normal;
+  display: inline-block;
+  direction: rtl;
+}
+
+.ar-clean strong,
+.ar-text strong {
+  font-weight: 800;
+}
+
