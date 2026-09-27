@@ -383,6 +383,56 @@ const BookingSystem = (() => {
   }
 
   // --------------------------------------------------------------------------
+  // ONE-SEAT-PER-PHONE & DUPLICATE BOOKING VALIDATION
+  // --------------------------------------------------------------------------
+  function isPhoneAlreadyBooked(normalizedPhone, sessionId) {
+    if (!normalizedPhone) return null;
+
+    // 1. Check user bookings history
+    if (Array.isArray(state.userBookings)) {
+      const found = state.userBookings.find(b => 
+        b.sessionId === sessionId &&
+        window.OpenWAService &&
+        OpenWAService.normalizePhone(b.phone) === normalizedPhone
+      );
+      if (found) return found;
+    }
+
+    // 2. Check session booked roster
+    const sessionState = state[sessionId];
+    if (sessionState && sessionState.bookedSeats) {
+      for (const [seatNum, occupant] of Object.entries(sessionState.bookedSeats)) {
+        if (occupant.phone && window.OpenWAService && OpenWAService.normalizePhone(occupant.phone) === normalizedPhone) {
+          return {
+            seatNumber: seatNum,
+            name: occupant.name || 'Member',
+            phone: occupant.phone,
+            sessionId
+          };
+        }
+      }
+    }
+
+    return null;
+  }
+
+  function showBookingFormError(msg) {
+    const errBox = document.getElementById('booking-form-error');
+    const errText = document.getElementById('booking-form-error-text');
+    if (errBox && errText) {
+      errText.textContent = msg;
+      errBox.classList.add('visible');
+    }
+  }
+
+  function hideBookingFormError() {
+    const errBox = document.getElementById('booking-form-error');
+    if (errBox) {
+      errBox.classList.remove('visible');
+    }
+  }
+
+  // --------------------------------------------------------------------------
   // WHATSAPP ONE-TIME PASSWORD (OTP) ENGINE & STATE
   // --------------------------------------------------------------------------
   let currentOtp = null;
@@ -416,7 +466,7 @@ const BookingSystem = (() => {
 
       if (totalSecs <= 0) {
         clearInterval(otpTimerInterval);
-        showOtpAlert('This OTP has expired. Please click "Resend Code" to get a fresh passcode.', 'error');
+        showOtpAlert('This passcode has expired. Please click "Resend Code via WhatsApp".', 'error');
         disableOtpCells(true);
       }
     }
@@ -483,10 +533,37 @@ const BookingSystem = (() => {
     hideOtpAlert();
   }
 
-  function startWhatsAppOtpFlow(name, phone, level, chosenSession) {
+  function updateDeliveryStatus(status, customText) {
+    const tag = document.getElementById('wa-dispatch-status-tag');
+    const textEl = document.getElementById('wa-delivery-text');
+
+    if (tag) {
+      if (status === 'delivered') {
+        tag.className = 'wa-status-tag mint';
+        tag.innerHTML = '🟢 <span class="en-text">Delivered to WhatsApp</span><span class="ar-text">تم التسليم على واتساب</span>';
+      } else if (status === 'sending') {
+        tag.className = 'wa-status-tag';
+        tag.innerHTML = '⚡ <span class="en-text">Dispatching via OpenWA...</span><span class="ar-text">جاري الإرسال...</span>';
+      } else if (status === 'waiting_qr') {
+        tag.className = 'wa-status-tag gold';
+        tag.innerHTML = '📱 <span class="en-text">Bot Awaiting QR Link</span><span class="ar-text">البوت بانتظار الربط</span>';
+      } else {
+        tag.className = 'wa-status-tag';
+        tag.innerHTML = '💬 <span class="en-text">Dispatched via WhatsApp</span><span class="ar-text">تم الإرسال عبر واتساب</span>';
+      }
+    }
+
+    if (textEl && customText) {
+      textEl.innerHTML = `<span>${customText}</span>`;
+    }
+  }
+
+  async function startWhatsAppOtpFlow(name, phone, normPhone, level, chosenSession) {
+    const sessionObj = SESSIONS[chosenSession];
     pendingBookingData = {
       name,
       phone,
+      normPhone,
       level,
       chosenSession,
       seatNumber: selectedSeat
@@ -500,16 +577,16 @@ const BookingSystem = (() => {
 
     // Update phone display
     const phoneTarget = document.getElementById('otp-phone-target');
-    if (phoneTarget) phoneTarget.textContent = phone;
+    if (phoneTarget) {
+      phoneTarget.textContent = window.OpenWAService 
+        ? OpenWAService.formatPhoneDisplay(normPhone) 
+        : phone;
+    }
 
-    // Update simulated toast code
-    const simCodeText = document.getElementById('sim-otp-code-text');
-    if (simCodeText) simCodeText.textContent = `${currentOtp.slice(0, 3)} - ${currentOtp.slice(3)}`;
-
-    // Update external WhatsApp link
+    // Update external WhatsApp support link
     const waLink = document.getElementById('otp-open-wa-btn');
     if (waLink) {
-      const msg = `Hi TalkLab! My reservation passcode is [${currentOtp}] for ${name} (${chosenSession}).`;
+      const msg = `Hi TalkLab! I am reserving a seat for ${name} (${sessionObj.name}). My phone is +${normPhone}.`;
       waLink.href = `https://wa.me/218920920230?text=${encodeURIComponent(msg)}`;
     }
 
@@ -521,6 +598,7 @@ const BookingSystem = (() => {
     // Start timers
     startOtpExpiryTicker();
     startResendCooldown(30);
+    updateDeliveryStatus('sending');
 
     if (window.SoundFX) SoundFX.playPop(640);
 
@@ -529,50 +607,72 @@ const BookingSystem = (() => {
       const firstCell = document.getElementById('otp-cell-0');
       if (firstCell) firstCell.focus();
     }, 120);
+
+    // Dispatch real WhatsApp OTP message via OpenWA API
+    if (window.OpenWAService) {
+      try {
+        const dispatchRes = await OpenWAService.dispatchOtpPasscode({
+          name,
+          phone: normPhone,
+          sessionName: sessionObj.name,
+          seatNumber: selectedSeat,
+          otpCode: currentOtp
+        });
+
+        if (dispatchRes.success) {
+          updateDeliveryStatus('delivered', 'Authentication code dispatched directly to your WhatsApp app! Check your chat.');
+          showOtpAlert('WhatsApp message delivered! Enter the 6 digits below.', 'success');
+        } else if (dispatchRes.status === 409) {
+          updateDeliveryStatus('waiting_qr', 'OpenWA WhatsApp Bot is active. Code ready for delivery upon QR link.');
+        } else {
+          updateDeliveryStatus('dispatched', 'We dispatched the verification code to your WhatsApp number.');
+        }
+      } catch (err) {
+        console.warn('[BookingSystem] WhatsApp dispatch error:', err);
+        updateDeliveryStatus('dispatched', 'Dispatched verification passcode. Please check your WhatsApp.');
+      }
+    }
   }
 
-  function handleResendOtp() {
+  async function handleResendOtp() {
     if (Date.now() < resendCooldownExpiresAt) return;
     if (!pendingBookingData) return;
+
+    const { name, normPhone, chosenSession, seatNumber } = pendingBookingData;
+    const sessionObj = SESSIONS[chosenSession];
 
     currentOtp = generateOtpCode();
     otpExpiresAt = Date.now() + 3 * 60 * 1000;
     otpAttemptsRemaining = 4;
 
     clearOtpInputs();
-
-    const simCodeText = document.getElementById('sim-otp-code-text');
-    if (simCodeText) simCodeText.textContent = `${currentOtp.slice(0, 3)} - ${currentOtp.slice(3)}`;
-
-    const waLink = document.getElementById('otp-open-wa-btn');
-    if (waLink) {
-      const msg = `Hi TalkLab! My NEW reservation passcode is [${currentOtp}] for ${pendingBookingData.name}.`;
-      waLink.href = `https://wa.me/218920920230?text=${encodeURIComponent(msg)}`;
-    }
-
     startOtpExpiryTicker();
     startResendCooldown(30);
+    updateDeliveryStatus('sending');
 
     showOtpAlert('New 6-digit WhatsApp passcode dispatched!', 'success');
     if (window.SoundFX) SoundFX.playPop(720);
 
     const firstCell = document.getElementById('otp-cell-0');
     if (firstCell) firstCell.focus();
-  }
 
-  function autoFillOtp() {
-    if (!currentOtp || currentOtp.length !== 6) return;
-    for (let i = 0; i < 6; i++) {
-      const cell = document.getElementById(`otp-cell-${i}`);
-      if (cell) {
-        cell.value = currentOtp[i];
-        cell.classList.add('filled');
-        cell.classList.remove('error');
+    // Dispatch fresh OTP via OpenWA
+    if (window.OpenWAService) {
+      try {
+        const res = await OpenWAService.dispatchOtpPasscode({
+          name,
+          phone: normPhone,
+          sessionName: sessionObj.name,
+          seatNumber,
+          otpCode: currentOtp
+        });
+        if (res.success) {
+          updateDeliveryStatus('delivered', 'Fresh passcode dispatched to your WhatsApp.');
+        }
+      } catch (err) {
+        console.warn('[BookingSystem] Resend error:', err);
       }
     }
-    hideOtpAlert();
-    if (window.SoundFX) SoundFX.playPop(800);
-    verifyOtpCode();
   }
 
   function backToBookingForm() {
@@ -582,6 +682,7 @@ const BookingSystem = (() => {
     document.getElementById('booking-form-step').style.display = 'block';
     document.getElementById('booking-otp-step').style.display = 'none';
     document.getElementById('booking-confirmation-step').style.display = 'none';
+    hideBookingFormError();
     if (window.SoundFX) SoundFX.playPop(500);
   }
 
@@ -629,9 +730,9 @@ const BookingSystem = (() => {
       }
 
       if (otpAttemptsRemaining > 0) {
-        showOtpAlert(`Incorrect code. ${otpAttemptsRemaining} attempts remaining.`, 'error');
+        showOtpAlert(`Incorrect passcode. ${otpAttemptsRemaining} attempts remaining. Check WhatsApp.`, 'error');
       } else {
-        showOtpAlert('Maximum attempts exceeded. Passcode invalidated. Request a new code.', 'error');
+        showOtpAlert('Maximum attempts exceeded. Passcode invalidated. Please request a new code.', 'error');
         disableOtpCells(true);
       }
     }
@@ -641,16 +742,21 @@ const BookingSystem = (() => {
     const container = document.getElementById('otp-inputs-container');
     if (container) {
       container.classList.remove('otp-shake');
-      // Trigger reflow to restart animation
       void container.offsetWidth;
       container.classList.add('otp-shake');
     }
   }
 
-  function finalizeVerifiedBooking() {
-    const { name, phone, level, chosenSession, seatNumber } = pendingBookingData;
+  async function finalizeVerifiedBooking() {
+    const { name, phone, normPhone, level, chosenSession, seatNumber } = pendingBookingData;
     const sessionObj = SESSIONS[chosenSession];
     const sessionState = state[chosenSession];
+
+    // Double check if phone was booked during verification
+    const existing = isPhoneAlreadyBooked(normPhone, chosenSession);
+    if (existing) {
+      alert(`Notice: Phone number ${phone} is already registered for Seat #${existing.seatNumber}.`);
+    }
 
     // Assign seat
     let assignedSeat = seatNumber;
@@ -672,7 +778,8 @@ const BookingSystem = (() => {
     if (assignedSeat) {
       sessionState.bookedSeats[assignedSeat] = {
         initial: userInitial,
-        name: name
+        name: name,
+        phone: normPhone
       };
     }
 
@@ -681,7 +788,8 @@ const BookingSystem = (() => {
     const record = {
       id: refCode,
       name,
-      phone,
+      phone: normPhone,
+      displayPhone: window.OpenWAService ? OpenWAService.formatPhoneDisplay(normPhone) : phone,
       level,
       sessionId: chosenSession,
       sessionName: sessionObj.name,
@@ -704,28 +812,73 @@ const BookingSystem = (() => {
     if (window.ConfettiFX) ConfettiFX.blast(0.5, 0.45, 140);
     if (window.SoundFX) SoundFX.playWinFanfare();
     window.dispatchEvent(new CustomEvent('talklab:booked', { detail: record }));
+
+    // Send official WhatsApp Confirmation Boarding Pass
+    if (window.OpenWAService) {
+      OpenWAService.dispatchBookingConfirmation(record).catch(err => {
+        console.warn('[BookingSystem] Confirmation ticket WhatsApp dispatch failed:', err);
+      });
+    }
   }
 
   function handleBookingSubmit(e) {
     e.preventDefault();
+    hideBookingFormError();
+
     const nameInput = document.getElementById('book-name');
     const phoneInput = document.getElementById('book-phone');
     const levelSelect = document.getElementById('book-level');
     const sessionSelect = document.getElementById('book-session-select');
 
     const name = nameInput ? nameInput.value.trim() : '';
-    const phone = phoneInput ? phoneInput.value.trim() : '';
+    const rawPhone = phoneInput ? phoneInput.value.trim() : '';
     const level = levelSelect ? levelSelect.value : 'Conversationalist';
     const chosenSession = sessionSelect ? sessionSelect.value : activeSessionId;
+    const sessionObj = SESSIONS[chosenSession];
 
-    if (!name || !phone) {
-      alert('Please provide your name and WhatsApp / phone number.');
+    if (!name) {
+      showBookingFormError('Please enter your full name.');
+      if (nameInput) nameInput.focus();
       return;
     }
 
+    if (!rawPhone) {
+      showBookingFormError('Please enter your WhatsApp / phone number.');
+      if (phoneInput) phoneInput.focus();
+      return;
+    }
+
+    const normPhone = window.OpenWAService 
+      ? OpenWAService.normalizePhone(rawPhone) 
+      : rawPhone.replace(/\D/g, '');
+
+    if (!normPhone || normPhone.length < 8) {
+      showBookingFormError('Please enter a valid phone number (e.g. 091 234 5678 or +218 91 234 5678).');
+      if (phoneInput) phoneInput.focus();
+      return;
+    }
+
+    // STRICT 1 SEAT PER PHONE NUMBER RULE
+    const existing = isPhoneAlreadyBooked(normPhone, chosenSession);
+    if (existing) {
+      const formatted = window.OpenWAService ? OpenWAService.formatPhoneDisplay(normPhone) : rawPhone;
+      showBookingFormError(
+        `⚠️ Phone number ${formatted} is already registered for Seat #${existing.seatNumber} (${existing.name}) in ${sessionObj.name}. Each member can only reserve 1 seat per session.`
+      );
+      if (phoneInput) {
+        phoneInput.classList.add('error');
+        phoneInput.focus();
+      }
+      if (window.SoundFX) SoundFX.playBuzzer();
+      return;
+    }
+
+    if (phoneInput) phoneInput.classList.remove('error');
+
     // Launch WhatsApp One-Time Password verification flow
-    startWhatsAppOtpFlow(name, phone, level, chosenSession);
+    startWhatsAppOtpFlow(name, rawPhone, normPhone, level, chosenSession);
   }
+
 
   function generateQrSvg(code) {
     return `
@@ -816,10 +969,6 @@ const BookingSystem = (() => {
     // Back to form button
     const backBtn = document.getElementById('otp-back-btn');
     if (backBtn) backBtn.addEventListener('click', backToBookingForm);
-
-    // Auto-fill button in simulated WhatsApp notification
-    const autoFillBtn = document.getElementById('whatsapp-autofill-btn');
-    if (autoFillBtn) autoFillBtn.addEventListener('click', autoFillOtp);
 
     // Resend code button
     const resendBtn = document.getElementById('otp-resend-btn');
