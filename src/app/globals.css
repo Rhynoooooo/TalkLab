@@ -1,0 +1,416 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* DEFAULT PALETTE: ⚡ ELECTRIC BLUE POP */
+  --color-primary: #2F42F0;
+  --color-primary-dark: #1E2DB8;
+  --color-primary-light: #EEF1FE;
+  
+  --color-accent-gold: #FFC42B;
+  --color-accent-gold-dark: #D49B0E;
+  --color-accent-gold-light: #FFF8E6;
+
+  --color-accent-coral: #FF4742;
+  --color-accent-coral-dark: #D42823;
+  --color-accent-coral-light: #FFEFEF;
+
+  --color-accent-mint: #15BD66;
+  --color-accent-mint-light: #E7FAF0;
+
+  --color-periwinkle: #ADC0E8;
+  --color-lilac: #D8CEF8;
+
+  --bg-canvas: #FFFBF2;
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #FFF7E8;
+  --bg-surface-subtle: #F6EEE0;
+
+  --text-main: #13172E;
+  --text-muted: #565D80;
+  --text-faint: #8E96BD;
+  --text-inverted: #FFFFFF;
+
+  --border-color: #13172E;
+  --border-width: 2.5px;
+  --shadow-offset: 4px;
+  --shadow-color: #13172E;
+  --shadow-pop: var(--shadow-offset) var(--shadow-offset) 0px var(--shadow-color);
+  --shadow-pop-hover: 6px 6px 0px var(--shadow-color);
+  --shadow-pop-active: 1px 1px 0px var(--shadow-color);
+
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  --font-display: 'Outfit', 'Cairo', sans-serif;
+  --font-body: 'Plus Jakarta Sans', 'Cairo', sans-serif;
+  --font-mono: 'Space Grotesk', 'Cairo', monospace;
+  --font-arabic: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Arial, sans-serif;
+
+  --transition-fast: 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-bounce: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-smooth: 0.28s ease;
+
+  --theme-name: 'pop';
+  --logo-box-bg: #FFF8EE;
+  --logo-box-border: #13172E;
+}
+
+/* PALETTE 2: 🌌 MIDNIGHT CYBER */
+[data-palette="cyber"] {
+  --theme-name: 'cyber';
+  --logo-box-bg: #3D46A5;
+  --logo-box-border: #38426E;
+  --color-primary: #5965F3;
+  --color-primary-dark: #3F4BD6;
+  --color-primary-light: rgba(89, 101, 243, 0.18);
+
+  --color-accent-gold: #FFE600;
+  --color-accent-gold-dark: #C7B300;
+  --color-accent-gold-light: rgba(255, 230, 0, 0.15);
+
+  --color-accent-coral: #FF4D78;
+  --color-accent-coral-dark: #D42850;
+  --color-accent-coral-light: rgba(255, 77, 120, 0.15);
+
+  --color-accent-mint: #00F59B;
+  --color-accent-mint-light: rgba(0, 245, 155, 0.15);
+
+  --bg-canvas: #0C0F1D;
+  --bg-surface: #151A31;
+  --bg-surface-elevated: #1D2342;
+  --bg-surface-subtle: #232B4F;
+
+  --text-main: #F8F9FE;
+  --text-muted: #A3ADDA;
+  --text-faint: #6A75A5;
+  --text-inverted: #0C0F1D;
+
+  --border-color: #38426E;
+  --shadow-color: #05070E;
+}
+
+/* PALETTE 3: 🔥 SUNSET EMBER */
+[data-palette="ember"] {
+  --theme-name: 'ember';
+  --logo-box-bg: #AB3731;
+  --logo-box-border: #1D1815;
+  --color-primary: #A8342D;
+  --color-primary-dark: #87251F;
+  --color-primary-light: #FDF0EE;
+
+  --color-accent-gold: #F5C266;
+  --color-accent-gold-dark: #C7963A;
+  --color-accent-gold-light: #FFF8EB;
+
+  --color-accent-coral: #E05445;
+  --color-accent-coral-dark: #B53629;
+  --color-accent-coral-light: #FDF1EF;
+
+  --color-accent-mint: #27AE60;
+  --color-accent-mint-light: #EBF8F1;
+
+  --bg-canvas: #FAF3E8;
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #F5E8D4;
+  --bg-surface-subtle: #EFE0C7;
+
+  --text-main: #1D1815;
+  --text-muted: #64564E;
+  --text-faint: #98877D;
+
+  --border-color: #1D1815;
+  --shadow-color: #1D1815;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--bg-canvas);
+  color: var(--text-main);
+  font-family: var(--font-body);
+}
+
+body {
+  background-color: var(--bg-canvas);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+  min-height: 100vh;
+}
+
+/* Neo-Pop Button Styles */
+.pop-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  border: var(--border-width) solid var(--border-color);
+  box-shadow: var(--shadow-pop);
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.pop-btn:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-pop-hover);
+}
+
+.pop-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-pop-active);
+}
+
+.pop-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: var(--shadow-pop) !important;
+}
+
+.pop-btn-primary {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.pop-btn-gold {
+  background-color: var(--color-accent-gold);
+  color: var(--text-main);
+}
+
+.pop-btn-coral {
+  background-color: var(--color-accent-coral);
+  color: #FFFFFF;
+}
+
+.pop-btn-surface {
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+}
+
+.pop-btn-outline {
+  background-color: transparent;
+  color: var(--text-main);
+}
+
+.pop-btn-sm {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+}
+
+.pop-btn-md {
+  padding: 0.65rem 1.25rem;
+  font-size: 0.98rem;
+}
+
+.pop-btn-lg {
+  padding: 0.85rem 1.6rem;
+  font-size: 1.1rem;
+}
+
+/* Neo-Pop Badges */
+.pop-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.28rem 0.65rem;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--border-color);
+  box-shadow: 2px 2px 0px var(--shadow-color);
+  color: var(--text-main);
+  background-color: var(--bg-surface);
+}
+
+.pop-badge.blue {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.pop-badge.gold {
+  background-color: var(--color-accent-gold);
+  color: var(--text-main);
+}
+
+.pop-badge.coral {
+  background-color: var(--color-accent-coral-light);
+  color: var(--color-accent-coral-dark);
+  border-color: var(--color-accent-coral);
+}
+
+.pop-badge.mint {
+  background-color: var(--color-accent-mint-light);
+  color: #0B6B34;
+  border-color: var(--color-accent-mint);
+}
+
+.pop-badge.terracotta {
+  background-color: #F8E5DF;
+  color: #9E3524;
+  border-color: #9E3524;
+}
+
+/* Neo-Pop Cards */
+.pop-card {
+  background-color: var(--bg-surface);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-pop);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.pop-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-pop-hover);
+}
+
+/* Marquee Track */
+.marquee-ribbon {
+  overflow: hidden;
+  white-space: nowrap;
+  background-color: var(--color-accent-gold);
+  color: #13172E;
+  border-bottom: var(--border-width) solid var(--border-color);
+  display: flex;
+  user-select: none;
+}
+
+.marquee-ribbon.primary {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  border-top: var(--border-width) solid var(--border-color);
+}
+
+.marquee-track {
+  display: inline-flex;
+  animation: marqueeScroll 32s linear infinite;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* 3D Flip Card for Slang Lab */
+.slang-card-3d-wrap {
+  perspective: 1000px;
+  cursor: pointer;
+  height: 250px;
+}
+
+.slang-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.slang-card-3d-wrap.flipped .slang-card-inner {
+  transform: rotateY(180deg);
+}
+
+.slang-card-front,
+.slang-card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: var(--radius-lg);
+  border: var(--border-width) solid var(--border-color);
+  box-shadow: var(--shadow-pop);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.slang-card-front {
+  background: var(--bg-surface);
+  justify-content: space-between;
+}
+
+.slang-card-back {
+  background: var(--bg-surface-elevated);
+  transform: rotateY(180deg);
+  justify-content: space-between;
+}
+
+/* Spinning Vinyl Animation */
+@keyframes spinVinyl {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinning-vinyl {
+  animation: spinVinyl 6s linear infinite;
+}
+
+/* Float Animation */
+@keyframes talklabFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-7px) rotate(-1.5deg); }
+}
+
+.floating-emblem {
+  animation: talklabFloat 4.5s ease-in-out infinite;
+}
+
+/* Retro Party Mode (Konami Easter Egg) */
+@keyframes rainbowGlow {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.party-mode-active {
+  animation: rainbowGlow 2s linear infinite;
+}
+
+/* OTP Shake Animation */
+@keyframes otpShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.otp-shake {
+  animation: otpShake 0.4s ease;
+}
+
+/* Container */
+.tl-container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .tl-container {
+    padding: 0 0.85rem;
+  }
+}
