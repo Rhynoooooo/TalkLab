@@ -8,7 +8,7 @@ import EasterEggsModal from '@/components/EasterEggsModal';
 import LofiPlayer from '@/components/LofiPlayer';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'),
   title: 'TalkLab 2.0 — The English Conversation Club You Actually Want to Join',
   description: "TalkLab is Tripoli's modern, gamified English conversation club for young minds. Interactive debates, taboo arcade, real-time 30 LYD seat booking, and chill vibes.",
   icons: {

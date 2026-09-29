@@ -5,7 +5,7 @@ import { useApp } from '@/context/AppContext';
 import { SESSIONS } from '@/lib/constants';
 import { normalizePhone, formatPhoneDisplay, isValidPhone, dispatchOtpPasscode, dispatchBookingConfirmation } from '@/lib/openwa';
 import { SoundFX } from '@/lib/soundFx';
-import { CheckCircle2, AlertCircle, RefreshCw, X, MessageSquare, ArrowLeft } from 'lucide-react';
+import { CheckCircle2, AlertCircle, RefreshCw, X, MessageSquare, ArrowLeft, Ticket, Check, ShieldCheck } from 'lucide-react';
 
 export default function BookingModal() {
   const {
@@ -47,7 +47,6 @@ export default function BookingModal() {
 
   const otpInputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
-  // Reset when modal opens
   useEffect(() => {
     if (isBookingOpen) {
       setStep('form');
@@ -57,7 +56,6 @@ export default function BookingModal() {
     }
   }, [isBookingOpen]);
 
-  // OTP countdown & Resend ticker
   useEffect(() => {
     if (step !== 'otp') return;
 
@@ -74,11 +72,10 @@ export default function BookingModal() {
   const currentSessionConfig = SESSIONS[activeSession];
   const currentRoster = bookedSeats[activeSession];
 
-  // Helper to find next available seat if none selected
   const resolveSeatNumber = (): number | null => {
     if (selectedSeat && !currentRoster[selectedSeat]) return selectedSeat;
     for (let i = 1; i <= 25; i++) {
-      if (i === 13) continue; // skip 13 if skipping
+      if (i === 13) continue;
       if (!currentRoster[i]) return i;
     }
     return 1;
@@ -120,37 +117,33 @@ export default function BookingModal() {
     setGeneratedOtp(code);
     setOtpSecondsLeft(180);
     setResendCooldown(30);
-    setOtpDigits(['', '', '', '', '', '']);
 
-    // Advance to OTP step
+    SoundFX.playPop(620);
     setStep('otp');
-    SoundFX.playPop(640);
 
-    // Auto focus first OTP cell
+    // Focus first OTP field
     setTimeout(() => {
-      if (otpInputsRef.current[0]) otpInputsRef.current[0].focus();
-    }, 150);
+      otpInputsRef.current[0]?.focus();
+    }, 100);
 
-    // Dispatch real/simulated WhatsApp message via Next.js proxy
+    // Dispatch WhatsApp OTP
     dispatchOtpPasscode({
       name,
-      phone: norm,
+      phone,
       sessionName: currentSessionConfig.name,
-      seatNumber: targetSeat,
+      seatNumber: selectedSeat,
       otpCode: code
-    }).catch(err => {
-      console.warn('WhatsApp OTP dispatch notice:', err);
-    });
+    }).catch(() => {});
   };
 
   const handleOtpDigitChange = (index: number, val: string) => {
-    const digit = val.replace(/\D/g, '').slice(-1);
+    const clean = val.replace(/\D/g, '').slice(-1);
     const updated = [...otpDigits];
-    updated[index] = digit;
+    updated[index] = clean;
     setOtpDigits(updated);
     setOtpError('');
 
-    if (digit && index < 5) {
+    if (clean && index < 5) {
       otpInputsRef.current[index + 1]?.focus();
     }
   };
@@ -167,16 +160,14 @@ export default function BookingModal() {
     setGeneratedOtp(code);
     setOtpSecondsLeft(180);
     setResendCooldown(30);
-    setOtpDigits(['', '', '', '', '', '']);
-    setOtpError('New 6-digit WhatsApp code dispatched!');
-    SoundFX.playPop(720);
+    setOtpError('');
+    SoundFX.playPop(520);
 
-    const norm = normalizePhone(phone);
     dispatchOtpPasscode({
       name,
-      phone: norm,
+      phone,
       sessionName: currentSessionConfig.name,
-      seatNumber: resolveSeatNumber(),
+      seatNumber: selectedSeat,
       otpCode: code
     }).catch(() => {});
   };
@@ -200,7 +191,6 @@ export default function BookingModal() {
     }
 
     if (entered === generatedOtp) {
-      // SUCCESS!
       const seat = resolveSeatNumber() || 1;
       const passId = `TL-${activeSession === 'saturday' ? 'SAT' : 'TUE'}-${seat}-${Math.floor(1000 + Math.random() * 9000)}`;
 
@@ -228,7 +218,6 @@ export default function BookingModal() {
         time: currentSessionConfig.time
       });
 
-      // Dispatch booking confirmation ticket to WhatsApp
       dispatchBookingConfirmation(bookingRecord).catch(() => {});
 
       SoundFX.playFanfare();
@@ -250,47 +239,62 @@ export default function BookingModal() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-      {/* Backdrop */}
+      {/* Blurred Backdrop */}
       <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
+        className="fixed inset-0 bg-slate-950/70 backdrop-blur-md transition-opacity"
         onClick={closeBooking}
       />
 
       {/* Modal Dialog Card */}
-      <div className="relative z-10 w-full max-w-lg bg-[var(--bg-canvas)] border-[3px] border-[var(--border-color)] rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 animate-in fade-in zoom-in-95 duration-200 my-auto">
+      <div className="relative z-10 w-full max-w-lg bg-[var(--bg-surface)] border-2 border-[var(--border-color)] rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 my-auto">
         {/* Close Button */}
         <button
           type="button"
           onClick={closeBooking}
-          className="absolute top-5 right-5 w-8 h-8 rounded-lg bg-[var(--bg-surface)] border-2 border-[var(--border-color)] flex items-center justify-center font-bold hover:scale-105 active:scale-95 transition-transform"
-          aria-label="Close booking modal"
+          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[var(--bg-canvas)] border border-slate-300 dark:border-slate-700 flex items-center justify-center font-bold hover:scale-105 active:scale-95 transition-all cursor-pointer text-slate-500 hover:text-slate-900 dark:hover:text-white"
+          aria-label="Close modal"
         >
           <X className="w-4 h-4" />
         </button>
+
+        {/* Step Indicator */}
+        <div className="flex items-center gap-2 font-mono text-[0.68rem] font-black uppercase text-[var(--text-muted)]">
+          <span className={`px-2 py-0.5 rounded-full ${step === 'form' ? 'bg-[var(--color-primary)] text-white' : 'bg-slate-200 dark:bg-slate-800'}`}>
+            1. Details
+          </span>
+          <span>→</span>
+          <span className={`px-2 py-0.5 rounded-full ${step === 'otp' ? 'bg-[var(--color-primary)] text-white' : 'bg-slate-200 dark:bg-slate-800'}`}>
+            2. Verify
+          </span>
+          <span>→</span>
+          <span className={`px-2 py-0.5 rounded-full ${step === 'ticket' ? 'bg-emerald-600 text-white' : 'bg-slate-200 dark:bg-slate-800'}`}>
+            3. Boarding Pass
+          </span>
+        </div>
 
         {/* STEP 1: REGISTRATION FORM */}
         {step === 'form' && (
           <div className="space-y-5">
             <div>
-              <span className="pop-badge blue mb-2">Fast Registration</span>
+              <span className="pop-badge blue mb-2">Fast Reservation</span>
               <h3 className="font-['Outfit'] font-black text-2xl sm:text-3xl text-[var(--text-main)]">
-                Reserve Your Roundtable Seat
+                Claim Your Seat at the Table
               </h3>
               <p className="text-xs sm:text-sm text-[var(--text-muted)] mt-1">
-                Flat Fee: <strong className="text-[var(--color-primary)]">30 LYD</strong> paid upon arrival at the venue. Strictly limited member seating.
+                Flat fee: <strong className="text-[var(--color-primary)]">30 LYD</strong> paid upon arrival at People &amp; Spaces.
               </p>
             </div>
 
             <form onSubmit={handleFormSubmit} className="space-y-4">
               {/* Session Picker */}
-              <div>
-                <label className="block font-mono text-xs font-black uppercase text-[var(--text-muted)] mb-1">
-                  Select Weekly Session
+              <div className="space-y-1">
+                <label className="block font-mono text-xs font-black uppercase text-[var(--text-muted)]">
+                  Weekly Session
                 </label>
                 <select
                   value={activeSession}
                   onChange={e => setActiveSession(e.target.value as 'saturday' | 'tuesday')}
-                  className="w-full p-3 rounded-xl bg-[var(--bg-surface)] border-2 border-[var(--border-color)] font-bold text-sm text-[var(--text-main)] shadow-[2px_2px_0px_var(--shadow-color)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[var(--bg-canvas)] border-2 border-slate-300 dark:border-slate-700 font-bold text-sm text-[var(--text-main)] focus:outline-none focus:border-[var(--color-primary)] focus:ring-4 focus:ring-[var(--color-primary)]/15 transition-all"
                 >
                   <option value="saturday">Saturday Immersion (12:00 PM – 4:00 PM) — 30 LYD</option>
                   <option value="tuesday">Tuesday Twilight (4:00 PM – 7:00 PM) — 30 LYD</option>
@@ -298,9 +302,9 @@ export default function BookingModal() {
               </div>
 
               {/* Name */}
-              <div>
-                <label className="block font-mono text-xs font-black uppercase text-[var(--text-muted)] mb-1">
-                  Your Name
+              <div className="space-y-1">
+                <label className="block font-mono text-xs font-black uppercase text-[var(--text-muted)]">
+                  Your Full Name
                 </label>
                 <input
                   type="text"
@@ -308,14 +312,14 @@ export default function BookingModal() {
                   placeholder="e.g. Tariq Mansour"
                   value={name}
                   onChange={e => setName(e.target.value)}
-                  className="w-full p-3 rounded-xl bg-[var(--bg-surface)] border-2 border-[var(--border-color)] font-bold text-sm text-[var(--text-main)] shadow-[2px_2px_0px_var(--shadow-color)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[var(--bg-canvas)] border-2 border-slate-300 dark:border-slate-700 font-bold text-sm text-[var(--text-main)] focus:outline-none focus:border-[var(--color-primary)] focus:ring-4 focus:ring-[var(--color-primary)]/15 transition-all"
                 />
               </div>
 
               {/* WhatsApp Phone */}
-              <div>
-                <label className="block font-mono text-xs font-black uppercase text-[var(--text-muted)] mb-1">
-                  WhatsApp / Phone Number
+              <div className="space-y-1">
+                <label className="block font-mono text-xs font-black uppercase text-[var(--text-muted)]">
+                  WhatsApp Phone Number
                 </label>
                 <input
                   type="tel"
@@ -323,38 +327,38 @@ export default function BookingModal() {
                   placeholder="e.g. +218 91 234 5678"
                   value={phone}
                   onChange={e => setPhone(e.target.value)}
-                  className="w-full p-3 rounded-xl bg-[var(--bg-surface)] border-2 border-[var(--border-color)] font-bold text-sm text-[var(--text-main)] shadow-[2px_2px_0px_var(--shadow-color)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[var(--bg-canvas)] border-2 border-slate-300 dark:border-slate-700 font-bold text-sm text-[var(--text-main)] focus:outline-none focus:border-[var(--color-primary)] focus:ring-4 focus:ring-[var(--color-primary)]/15 transition-all"
                 />
               </div>
 
               {/* Speaking Level */}
-              <div>
-                <label className="block font-mono text-xs font-black uppercase text-[var(--text-muted)] mb-1">
-                  Speaking Level &amp; Comfort
+              <div className="space-y-1">
+                <label className="block font-mono text-xs font-black uppercase text-[var(--text-muted)]">
+                  Speaking Comfort Level
                 </label>
                 <select
                   value={level}
                   onChange={e => setLevel(e.target.value)}
-                  className="w-full p-3 rounded-xl bg-[var(--bg-surface)] border-2 border-[var(--border-color)] font-bold text-xs sm:text-sm text-[var(--text-main)] shadow-[2px_2px_0px_var(--shadow-color)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[var(--bg-canvas)] border-2 border-slate-300 dark:border-slate-700 font-bold text-xs sm:text-sm text-[var(--text-main)] focus:outline-none focus:border-[var(--color-primary)] focus:ring-4 focus:ring-[var(--color-primary)]/15 transition-all"
                 >
-                  <option value="Explorer (A2-B1)">Explorer — Good passive understanding, looking for speaking courage</option>
+                  <option value="Explorer (A2-B1)">Explorer — Good understanding, looking for speaking courage</option>
                   <option value="Conversationalist (B1-B2)">Conversationalist — Can chat, looking for speed &amp; fluid confidence</option>
                   <option value="Fluent Speaker (B2-C1)">Fluent — Looking for intellectual debate &amp; sophisticated vocabulary</option>
                 </select>
               </div>
 
               {/* Assigned Chair Info Box */}
-              <div className="p-3 rounded-xl bg-[var(--bg-surface-elevated)] border-2 border-[var(--border-color)] flex items-center justify-between text-xs sm:text-sm font-bold">
-                <span>Assigned Chair:</span>
-                <span className="font-mono text-[var(--color-primary)] text-sm font-black">
-                  {selectedSeat ? `Seat #${selectedSeat}` : 'Any Available Seat'}
+              <div className="p-3.5 rounded-2xl bg-[var(--bg-canvas)] border border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs sm:text-sm font-bold">
+                <span className="text-[var(--text-muted)]">Assigned Roundtable Seat:</span>
+                <span className="font-mono text-[var(--color-primary)] text-sm font-black bg-[var(--color-primary-light)] px-2.5 py-0.5 rounded-full">
+                  {selectedSeat ? `Seat #${selectedSeat}` : 'Next Free Seat'}
                 </span>
               </div>
 
               {/* Error Message */}
               {formError && (
-                <div className="p-3 rounded-xl bg-red-100 dark:bg-red-950/40 border-2 border-red-500 text-red-700 dark:text-red-300 text-xs font-bold flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                <div className="p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-900 text-rose-700 dark:text-rose-300 text-xs font-bold flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-500" />
                   <span>{formError}</span>
                 </div>
               )}
@@ -362,7 +366,7 @@ export default function BookingModal() {
               {/* Submit CTA */}
               <button
                 type="submit"
-                className="w-full pop-btn pop-btn-primary pop-btn-lg justify-center shadow-[4px_4px_0px_var(--shadow-color)]"
+                className="w-full pop-btn pop-btn-primary pop-btn-lg justify-center btn-shimmer"
               >
                 <span>Verify via WhatsApp OTP (30 LYD) 💬</span>
               </button>
@@ -370,15 +374,15 @@ export default function BookingModal() {
           </div>
         )}
 
-        {/* STEP 2: WHATSAPP OTP VERIFICATION */}
+        {/* STEP 2: WHATSAPP OTP */}
         {step === 'otp' && (
           <div className="space-y-5">
             <div className="flex items-center justify-between">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500 text-white rounded-full text-xs font-mono font-bold">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-600 text-white rounded-full text-xs font-mono font-bold">
                 <MessageSquare className="w-3.5 h-3.5" />
-                <span>WhatsApp Verification</span>
+                <span>WhatsApp Authentication</span>
               </div>
-              <span className="pop-badge mint text-xs">⚡ Active Passcode</span>
+              <span className="pop-badge mint text-xs">⚡ Code Sent</span>
             </div>
 
             <div>
@@ -386,15 +390,15 @@ export default function BookingModal() {
                 Enter 6-Digit Passcode
               </h3>
               <p className="text-xs text-[var(--text-muted)] mt-1">
-                We dispatched an authentication code to your WhatsApp application.
+                We sent a 6-digit confirmation code to your WhatsApp application.
               </p>
             </div>
 
-            {/* Recipient Phone Target with Back to Edit */}
-            <div className="p-3 rounded-xl bg-[var(--bg-surface)] border-2 border-[var(--border-color)] flex items-center justify-between">
+            {/* Target Phone */}
+            <div className="p-3 rounded-2xl bg-[var(--bg-canvas)] border border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <div>
-                <span className="font-mono text-[0.65rem] uppercase text-[var(--text-muted)] font-black block">
-                  Recipient WhatsApp
+                <span className="font-mono text-[0.62rem] uppercase text-[var(--text-muted)] font-black block">
+                  Target Number
                 </span>
                 <span className="font-mono text-sm font-bold text-[var(--text-main)]">
                   {formatPhoneDisplay(phone)}
@@ -403,26 +407,15 @@ export default function BookingModal() {
               <button
                 type="button"
                 onClick={() => setStep('form')}
-                className="text-xs font-bold text-[var(--color-primary)] hover:underline flex items-center gap-1"
+                className="text-xs font-bold text-[var(--color-primary)] hover:underline flex items-center gap-1 cursor-pointer"
               >
                 <ArrowLeft className="w-3 h-3" />
                 <span>Edit</span>
               </button>
             </div>
 
-            {/* WhatsApp App Notice Tip */}
-            <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border-2 border-emerald-400 text-emerald-800 dark:text-emerald-200 text-xs font-medium space-y-1">
-              <div className="font-bold flex items-center gap-1.5">
-                <span>💬</span>
-                <span>Dispatched via WhatsApp</span>
-              </div>
-              <p className="text-[0.72rem] leading-relaxed opacity-90">
-                Please check your WhatsApp application on your phone. We have dispatched a 6-digit confirmation code.
-              </p>
-            </div>
-
             {/* 6 Digit Input Cells */}
-            <div className={`space-y-2 ${isOtpShaking ? 'otp-shake' : ''}`}>
+            <div className={`space-y-2.5 ${isOtpShaking ? 'otp-shake' : ''}`}>
               <div className="grid grid-cols-6 gap-2">
                 {otpDigits.map((digit, idx) => (
                   <input
@@ -434,39 +427,40 @@ export default function BookingModal() {
                     value={digit}
                     onChange={e => handleOtpDigitChange(idx, e.target.value)}
                     onKeyDown={e => handleOtpKeyDown(idx, e)}
-                    className="w-full h-12 text-center font-['Outfit'] font-black text-xl rounded-xl bg-[var(--bg-surface)] border-2 border-[var(--border-color)] shadow-[2px_2px_0px_var(--shadow-color)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-[var(--text-main)]"
+                    className="w-full h-12 text-center font-['Space_Grotesk'] font-black text-xl rounded-xl bg-[var(--bg-canvas)] border-2 border-slate-300 dark:border-slate-700 focus:outline-none focus:border-[var(--color-primary)] focus:ring-4 focus:ring-[var(--color-primary)]/15 text-[var(--text-main)] transition-all"
                   />
                 ))}
               </div>
 
               {otpError && (
-                <div className="text-center font-bold text-xs text-[var(--color-accent-coral)]">
+                <div className="text-center font-bold text-xs text-rose-500">
                   {otpError}
                 </div>
               )}
             </div>
 
-            {/* Meta Row: Timer + Resend */}
+            {/* Timer & Resend */}
             <div className="flex items-center justify-between font-mono text-xs font-bold text-[var(--text-muted)]">
-              <span>Code expires: {formatTime(otpSecondsLeft)}</span>
+              <span>Code expires in: {formatTime(otpSecondsLeft)}</span>
               <button
                 type="button"
                 disabled={resendCooldown > 0}
                 onClick={handleResend}
-                className="text-[var(--color-primary)] hover:underline disabled:opacity-50 disabled:no-underline font-bold"
+                className="text-[var(--color-primary)] hover:underline disabled:opacity-50 disabled:no-underline font-bold cursor-pointer"
               >
                 {resendCooldown > 0 ? `Resend (${resendCooldown}s)` : 'Resend Code'}
               </button>
             </div>
 
             {/* Submit Verification */}
-            <div className="space-y-2 pt-2">
+            <div className="space-y-2.5 pt-2">
               <button
                 type="button"
                 onClick={handleVerifyOtp}
-                className="w-full pop-btn pop-btn-primary pop-btn-lg justify-center shadow-[4px_4px_0px_var(--shadow-color)]"
+                className="w-full pop-btn pop-btn-primary pop-btn-lg justify-center btn-shimmer"
               >
-                <span>✓ Verify OTP &amp; Confirm Seat (30 LYD)</span>
+                <ShieldCheck className="w-4 h-4 mr-1" />
+                <span>Confirm &amp; Lock In Seat (30 LYD)</span>
               </button>
 
               <a
@@ -475,7 +469,7 @@ export default function BookingModal() {
                 rel="noopener noreferrer"
                 className="w-full pop-btn pop-btn-surface pop-btn-sm justify-center text-center"
               >
-                <span>Open TalkLab on WhatsApp Directly ↗</span>
+                <span>Direct WhatsApp Contact ↗</span>
               </a>
             </div>
           </div>
@@ -483,25 +477,26 @@ export default function BookingModal() {
 
         {/* STEP 3: DIGITAL BOARDING PASS */}
         {step === 'ticket' && confirmedBooking && (
-          <div className="text-center space-y-5">
-            <div className="text-5xl animate-bounce">🎉</div>
+          <div className="text-center space-y-6">
+            <div className="text-5xl animate-bounce">🎟️</div>
             <div>
+              <span className="pop-badge mint mb-2">Confirmed Member Pass</span>
               <h3 className="font-['Outfit'] font-black text-2xl sm:text-3xl text-[var(--text-main)]">
                 You&apos;re on the Guestlist!
               </h3>
               <p className="text-xs sm:text-sm text-[var(--text-muted)] mt-1">
-                Your seat at the roundtable has been locked in real-time.
+                Your seat has been reserved at مركز سفراء العلم for the session.
               </p>
             </div>
 
             {/* Boarding Pass Ticket */}
-            <div className="p-5 rounded-2xl bg-[var(--bg-surface)] border-[2.5px] border-[var(--border-color)] shadow-[5px_5px_0px_var(--shadow-color)] text-left space-y-4">
-              <div className="flex items-center justify-between border-b-2 border-dashed border-[var(--border-color)] pb-3">
+            <div className="p-6 rounded-3xl bg-[var(--bg-canvas)] border-2 border-[var(--border-color)] shadow-lg text-left space-y-4 relative overflow-hidden">
+              <div className="flex items-center justify-between border-b-2 border-dashed border-slate-300 dark:border-slate-700 pb-3">
                 <div>
                   <span className="font-mono text-[0.62rem] font-black uppercase text-[var(--text-muted)]">
-                    Boarding Pass
+                    Boarding Pass ID
                   </span>
-                  <div className="font-['Outfit'] font-black text-lg text-[var(--color-primary)]">
+                  <div className="font-['Space_Grotesk'] font-black text-lg text-[var(--color-primary)]">
                     {confirmedBooking.id}
                   </div>
                 </div>
@@ -515,27 +510,27 @@ export default function BookingModal() {
                 </div>
               </div>
 
-              <div className="space-y-1.5 text-xs sm:text-sm">
+              <div className="grid grid-cols-2 gap-3 text-xs sm:text-sm">
                 <div>
-                  <span className="text-[var(--text-muted)] font-mono text-[0.7rem] uppercase block">Member Name</span>
+                  <span className="text-[var(--text-muted)] font-mono text-[0.65rem] uppercase block">Member</span>
                   <strong className="text-[var(--text-main)] font-extrabold">{confirmedBooking.name}</strong>
                 </div>
                 <div>
-                  <span className="text-[var(--text-muted)] font-mono text-[0.7rem] uppercase block">Weekly Session</span>
+                  <span className="text-[var(--text-muted)] font-mono text-[0.65rem] uppercase block">Weekly Session</span>
                   <strong className="text-[var(--text-main)] font-extrabold">{confirmedBooking.sessionName}</strong>
                 </div>
                 <div>
-                  <span className="text-[var(--text-muted)] font-mono text-[0.7rem] uppercase block">Schedule</span>
+                  <span className="text-[var(--text-muted)] font-mono text-[0.65rem] uppercase block">Schedule</span>
                   <strong className="text-[var(--text-main)] font-extrabold">{confirmedBooking.day} • {confirmedBooking.time}</strong>
                 </div>
                 <div>
-                  <span className="text-[var(--text-muted)] font-mono text-[0.7rem] uppercase block">Host Venue</span>
-                  <strong className="text-[var(--text-main)] font-extrabold">مركز سفراء العلم (People &amp; Spaces) • حي الأندلس، طرابلس</strong>
+                  <span className="text-[var(--text-muted)] font-mono text-[0.65rem] uppercase block">Admission Fee</span>
+                  <strong className="text-emerald-600 dark:text-emerald-400 font-extrabold">30 LYD (Pay at Door)</strong>
                 </div>
-                <div>
-                  <span className="text-[var(--text-muted)] font-mono text-[0.7rem] uppercase block">Admission Fee</span>
-                  <strong className="text-[var(--color-accent-mint)] font-extrabold">30 LYD (Pay at Door)</strong>
-                </div>
+              </div>
+
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-800 text-[0.68rem] font-mono text-[var(--text-muted)]">
+                📍 Location: مركز سفراء العلم (People &amp; Spaces) • حي الأندلس، طرابلس
               </div>
             </div>
 
@@ -544,7 +539,7 @@ export default function BookingModal() {
               onClick={closeBooking}
               className="w-full pop-btn pop-btn-surface pop-btn-md justify-center"
             >
-              <span>Done &amp; Back to Games</span>
+              <span>Done &amp; Explore More</span>
             </button>
           </div>
         )}
