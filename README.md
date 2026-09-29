@@ -1,4 +1,4 @@
-# TalkLab 2.0 — Next.js & React Modern Migration
+# TalkLab 
 
 TalkLab is Tripoli's modern, gamified English conversation club for ambitious young minds, hosted weekly at **مركز سفراء العلم** (People & Spaces) in Hay Al-Andalus.
 
