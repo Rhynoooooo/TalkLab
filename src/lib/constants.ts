@@ -2,6 +2,16 @@ import { SessionConfig, BookedSeat, QuizQuestion, PersonaInfo, TabooCard, SlangC
 
 export const THEMES: { id: ThemePalette; name: string; icon: string; sub: string; logo: string; bg: string; boxBorder: string; soundPitch: number }[] = [
   {
+    id: 'notebook',
+    name: 'Notebook',
+    icon: '📓',
+    sub: 'Field Notes & Ink',
+    logo: '/assets/logo-blue.png',
+    bg: '#FAF7F0',
+    boxBorder: '#2D3142',
+    soundPitch: 680
+  },
+  {
     id: 'pop',
     name: 'Pop',
     icon: '⚡',

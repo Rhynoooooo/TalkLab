@@ -5,7 +5,7 @@ import { useApp } from '@/context/AppContext';
 import { SESSIONS } from '@/lib/constants';
 import { normalizePhone, formatPhoneDisplay, isValidPhone, dispatchOtpPasscode, dispatchBookingConfirmation } from '@/lib/openwa';
 import { SoundFX } from '@/lib/soundFx';
-import { CheckCircle2, AlertCircle, RefreshCw, X, MessageSquare, ArrowLeft, Ticket, Check, ShieldCheck } from 'lucide-react';
+import { X, AlertCircle, MessageSquare, ArrowLeft, ShieldCheck } from 'lucide-react';
 
 export default function BookingModal() {
   const {
@@ -14,7 +14,6 @@ export default function BookingModal() {
     activeSession,
     setActiveSession,
     selectedSeat,
-    setSelectedSeat,
     bookedSeats,
     userBookings,
     addBooking,
@@ -47,14 +46,13 @@ export default function BookingModal() {
 
   const otpInputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
-  useEffect(() => {
-    if (isBookingOpen) {
-      setStep('form');
-      setFormError('');
-      setOtpError('');
-      setOtpDigits(['', '', '', '', '', '']);
-    }
-  }, [isBookingOpen]);
+  const handleClose = () => {
+    closeBooking();
+    setStep('form');
+    setFormError('');
+    setOtpError('');
+    setOtpDigits(['', '', '', '', '', '']);
+  };
 
   useEffect(() => {
     if (step !== 'otp') return;
@@ -242,7 +240,7 @@ export default function BookingModal() {
       {/* Blurred Backdrop */}
       <div
         className="fixed inset-0 bg-slate-950/70 backdrop-blur-md transition-opacity"
-        onClick={closeBooking}
+        onClick={handleClose}
       />
 
       {/* Modal Dialog Card */}
@@ -250,7 +248,7 @@ export default function BookingModal() {
         {/* Close Button */}
         <button
           type="button"
-          onClick={closeBooking}
+          onClick={handleClose}
           className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[var(--bg-canvas)] border border-slate-300 dark:border-slate-700 flex items-center justify-center font-bold hover:scale-105 active:scale-95 transition-all cursor-pointer text-slate-500 hover:text-slate-900 dark:hover:text-white"
           aria-label="Close modal"
         >
@@ -536,7 +534,7 @@ export default function BookingModal() {
 
             <button
               type="button"
-              onClick={closeBooking}
+              onClick={handleClose}
               className="w-full pop-btn pop-btn-surface pop-btn-md justify-center"
             >
               <span>Done &amp; Explore More</span>

@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 import Image from 'next/image';
 import { useApp } from '@/context/AppContext';
 import { SoundFX } from '@/lib/soundFx';
-import { Volume2, VolumeX, Menu, X, User, Shield, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Menu, X, User, Shield } from 'lucide-react';
 
 export default function Navbar({
   onToggleMobileDrawer,
@@ -21,10 +21,11 @@ export default function Navbar({
     soundMuted,
     toggleSound,
     openBooking,
-    openUserDashboard,
+    openMemberModal,
     openAdminModal,
     openEasterModal,
-    userBookings
+    userBookings,
+    currentUser
   } = useApp();
 
   const logoClicksRef = useRef<number>(0);
@@ -157,20 +158,24 @@ export default function Navbar({
 
         {/* Right Controls */}
         <div className="flex items-center gap-2 sm:gap-2.5">
-          {/* User Passes Button */}
+          {/* User Passes / Boarding Pass Button */}
           <button
             type="button"
-            onClick={openUserDashboard}
+            onClick={openMemberModal}
             className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-mono font-bold bg-[var(--bg-surface)] border-2 border-[var(--border-color)] rounded-xl shadow-[2px_2px_0px_var(--shadow-color)] hover:scale-105 active:scale-95 transition-all cursor-pointer"
-            title="My Tickets & Bookings"
+            title="Digital Boarding Pass & WhatsApp Verification"
           >
             <User className="w-3.5 h-3.5 text-[var(--color-primary)]" />
-            <span className="hidden sm:inline">Passes</span>
-            {userBookings.length > 0 && (
+            <span className="hidden sm:inline">
+              {currentUser?.role === 'member' ? 'My Pass' : 'Passes'}
+            </span>
+            {currentUser?.role === 'member' ? (
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            ) : userBookings.length > 0 ? (
               <span className="w-4 h-4 rounded-full bg-[var(--color-primary)] text-white text-[0.6rem] font-black flex items-center justify-center">
                 {userBookings.length}
               </span>
-            )}
+            ) : null}
           </button>
 
           {/* Facilitator Hub PIN protected */}
@@ -178,7 +183,7 @@ export default function Navbar({
             type="button"
             onClick={openAdminModal}
             className="flex items-center gap-1 px-2 sm:px-2.5 py-1.5 text-xs font-mono font-bold bg-[var(--bg-surface)] border-2 border-[var(--border-color)] rounded-xl shadow-[2px_2px_0px_var(--shadow-color)] hover:scale-105 active:scale-95 transition-all text-amber-600 dark:text-amber-400 cursor-pointer"
-            title="Facilitator & Moderator Hub (PIN: 2026)"
+            title="Facilitator & Moderator Hub (Authorized Personnel Only)"
           >
             <Shield className="w-3.5 h-3.5" />
             <span className="hidden md:inline">Admin</span>
@@ -186,6 +191,17 @@ export default function Navbar({
 
           {/* Theme Switcher (Desktop) */}
           <div className="hidden lg:flex items-center bg-[var(--bg-surface)] border-2 border-[var(--border-color)] p-1 rounded-xl shadow-[2px_2px_0px_var(--shadow-color)]">
+            <button
+              type="button"
+              onClick={() => setTheme('notebook')}
+              className={`px-2 py-0.8 text-[0.7rem] font-mono font-black rounded-lg transition-all cursor-pointer ${
+                theme === 'notebook'
+                  ? 'bg-[#1D4ED8] text-white shadow-xs'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
+              }`}
+            >
+              📓 Journal
+            </button>
             <button
               type="button"
               onClick={() => setTheme('pop')}

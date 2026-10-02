@@ -25,6 +25,7 @@ Thumbs.db
 cloudflared.exe
 *.log
 *.zip
+/data/
 
 # debug
 npm-debug.log*
@@ -33,7 +34,9 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files
-.env*.local
+.env
+.env.*
+!.env.example
 
 # vercel
 .vercel

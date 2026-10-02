@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useApp } from '@/context/AppContext';
 import { DEBATE_TOPICS } from '@/lib/constants';
 import { SoundFX } from '@/lib/soundFx';
-import { Flame, Shuffle, CheckCircle, ShieldAlert, Sparkles, MessageCircle } from 'lucide-react';
+import { Flame, Shuffle, MessageCircle } from 'lucide-react';
 
 export default function HotSeat() {
   const { openBooking } = useApp();

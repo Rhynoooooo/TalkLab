@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { ArrowLeft, Home, Search } from 'lucide-react';
 
 export default function NotFound() {
@@ -39,13 +40,13 @@ export default function NotFound() {
 
         {/* Action buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-          <a
+          <Link
             href="/"
             className="pop-btn pop-btn-primary pop-btn-lg w-full sm:w-auto justify-center btn-shimmer"
           >
             <Home className="w-4 h-4" />
             <span>Back to TalkLab</span>
-          </a>
+          </Link>
           <button
             type="button"
             onClick={() => window.history.back()}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useApp } from '@/context/AppContext';
 import { SoundFX } from '@/lib/soundFx';
 import { Sparkles, Calendar, Clock, MapPin, Users, ArrowRight } from 'lucide-react';
@@ -43,7 +43,7 @@ export default function HeroSection() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleEmojiClick = (e: React.MouseEvent<HTMLButtonElement>, emoji: string) => {
+  const handleEmojiClick = useCallback((e: React.MouseEvent<HTMLButtonElement>, emoji: string) => {
     SoundFX.playPop(480 + Math.random() * 260);
     const rect = e.currentTarget.getBoundingClientRect();
     const newId = Date.now() + Math.random();
@@ -52,7 +52,7 @@ export default function HeroSection() {
     setTimeout(() => {
       setFloatingEmojis(prev => prev.filter(item => item.id !== newId));
     }, 1200);
-  };
+  }, []);
 
   const bookedSaturdayCount = Object.keys(bookedSeats.saturday).length;
   const spotsLeft = Math.max(0, 25 - bookedSaturdayCount);
@@ -106,15 +106,23 @@ export default function HeroSection() {
                   <span className="relative z-10 text-white bg-[var(--color-primary)] px-3.5 py-1 rounded-2xl -rotate-1 shadow-[4px_4px_0px_var(--shadow-color)] inline-block my-1">
                     Hanging Out,
                   </span>
+                </span>
+                <span className="font-hand text-2xl sm:text-3xl text-[var(--color-accent-coral)] font-bold ml-2.5 -rotate-3 inline-block select-none">
+                  ✎ real talks only!
                 </span> <br />
                 Not Homework.
               </h1>
-              <p
-                className="font-['Cairo'] font-bold text-base sm:text-lg text-[var(--color-primary)] pt-1 text-right"
-                dir="rtl"
-              >
-                حيث الإنجليزية تبدو مثل التسلية الحقيقية، لا الواجب المدرسي الجاف.
-              </p>
+              <div className="flex items-center gap-2 pt-1 justify-between flex-wrap">
+                <span className="font-hand text-base sm:text-lg text-[var(--text-muted)] -rotate-1">
+                  ✏️ Tripoli&apos;s Weekly Study &amp; Debate Journal
+                </span>
+                <p
+                  className="font-['Cairo'] font-bold text-base sm:text-lg text-[var(--color-primary)] text-right"
+                  dir="rtl"
+                >
+                  حيث الإنجليزية تبدو مثل التسلية الحقيقية، لا الواجب المدرسي الجاف.
+                </p>
+              </div>
             </div>
 
             {/* Subtext */}
@@ -165,12 +173,21 @@ export default function HeroSection() {
           </div>
 
           {/* Right Column: Live Showcase Booking Card */}
-          <div className="lg:col-span-5">
-            <div className="pop-card p-6 sm:p-8 bg-[var(--bg-surface)] space-y-6 relative overflow-hidden">
+          <div className="lg:col-span-5 relative">
+            {/* Washi Tape strips pinning the notebook card */}
+            <div className="washi-tape washi-tape-yellow -top-3.5 right-12 w-28 -rotate-2 hidden sm:block" />
+            <div className="washi-tape washi-tape-cyan -top-3.5 left-10 w-24 rotate-3 hidden sm:block" />
+
+            <div className="pop-card p-6 sm:p-8 bg-[var(--bg-surface)] space-y-5 relative">
               {/* Header */}
               <div className="flex items-start justify-between">
                 <div>
-                  <span className="pop-badge coral mb-2">Upcoming Session</span>
+                  <div className="flex items-center gap-2 mb-2 flex-wrap">
+                    <span className="pop-badge coral">Upcoming Session</span>
+                    <span className="ink-stamp text-[0.62rem] py-0.5">
+                      ★ DISPATCH • HAY AL-ANDALUS
+                    </span>
+                  </div>
                   <h3 className="font-['Outfit'] font-black text-2xl sm:text-3xl text-[var(--text-main)]">
                     Saturday Immersion
                   </h3>
@@ -282,6 +299,19 @@ export default function HeroSection() {
               >
                 <span>Lock In Your Spot (30 LYD)</span>
               </button>
+
+              {/* Tilted Sticky Note Attachment */}
+              <div className="sticky-note p-3.5 -rotate-1 border border-amber-300/80 shadow-md">
+                <div className="flex items-center justify-between text-amber-950 font-bold font-mono text-[0.68rem] uppercase tracking-wider mb-1">
+                  <span className="flex items-center gap-1.5">
+                    <span>📌 FACILITATOR MARGIN NOTE</span>
+                  </span>
+                  <span>WEEKLY ROSTER</span>
+                </div>
+                <p className="font-hand text-base sm:text-lg text-slate-900 leading-snug">
+                  “Zero grammar exams. 25 chairs only. Grab a coffee at the in-house bar and start talking fearless English from minute one!” ✍️
+                </p>
+              </div>
             </div>
           </div>
         </div>

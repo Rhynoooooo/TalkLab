@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { SLANG_CARDS } from '@/lib/constants';
 import { SlangCard } from '@/lib/types';
 import { SoundFX } from '@/lib/soundFx';
-import { BookOpen, Sparkles, RotateCw, Volume2 } from 'lucide-react';
+import { BookOpen, RotateCw } from 'lucide-react';
 
 export default function SlangLab() {
   const [filter, setFilter] = useState<'all' | 'internet' | 'rhetoric' | 'social'>('all');
@@ -23,15 +23,23 @@ export default function SlangLab() {
     <section className="py-16 sm:py-24 bg-[var(--bg-surface-elevated)] border-t-[2.5px] border-[var(--border-color)]" id="slang-lab">
       <div className="tl-container">
         <div className="text-center space-y-4 mb-12">
-          <span className="pop-badge gold inline-flex items-center gap-1.5">
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>Modern Conversational Fluency</span>
-          </span>
+          <div className="flex items-center justify-center gap-2 flex-wrap">
+            <span className="pop-badge gold inline-flex items-center gap-1.5">
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>Modern Conversational Fluency</span>
+            </span>
+            <span className="ink-stamp text-xs py-0.5">
+              ★ STUDY JOURNAL FLASHCARDS
+            </span>
+          </div>
           <h2 className="font-['Outfit'] font-black text-3xl sm:text-4xl lg:text-5xl text-[var(--text-main)] tracking-tight">
             The TalkLab Slang &amp; Idiom Lab
           </h2>
           <p className="text-base text-[var(--text-muted)] max-w-xl mx-auto leading-relaxed">
             Forget dry 1990s textbook dialogue. Click these interactive 3D flashcards to master modern cultural slang, debate rhetoric, and high-impact idiomatic phrases used today.
+          </p>
+          <p className="font-hand text-xl text-[var(--color-primary)] font-bold -rotate-1">
+            ✎ Tap any card to test your slang recall &amp; view real-life conversation notes!
           </p>
 
           {/* Filter Pills */}
@@ -81,7 +89,7 @@ export default function SlangLab() {
               >
                 <div className="slang-card-inner">
                   {/* Front Side */}
-                  <div className="slang-card-front">
+                  <div className="slang-card-front flex flex-col justify-between h-full">
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-[0.65rem] font-black uppercase px-2.5 py-0.5 rounded-full bg-[var(--bg-canvas)] border border-[var(--border-color)]">
                         {card.category}
@@ -92,7 +100,7 @@ export default function SlangLab() {
                       </span>
                     </div>
 
-                    <div className="my-auto text-center space-y-1.5 py-2">
+                    <div className="my-auto text-center space-y-1.5 py-3">
                       <h3 className="font-['Outfit'] font-black text-2xl sm:text-3xl text-[var(--text-main)] tracking-tight">
                         {card.term}
                       </h3>
@@ -101,26 +109,33 @@ export default function SlangLab() {
                       </div>
                     </div>
 
-                    <div className="border-t border-slate-200 dark:border-slate-800 pt-2 flex items-center justify-between text-[0.7rem] font-mono text-[var(--text-muted)]">
-                      <span>{card.type}</span>
-                      <span className="text-[var(--color-primary)] font-bold">Tap to reveal</span>
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-2.5 flex items-center justify-between text-[0.7rem] font-mono text-[var(--text-muted)]">
+                      <span className="truncate max-w-[140px]">{card.type}</span>
+                      <span className="text-[var(--color-primary)] font-bold flex-shrink-0">Tap to reveal</span>
                     </div>
                   </div>
 
                   {/* Back Side */}
-                  <div className="slang-card-back">
+                  <div className="slang-card-back flex flex-col justify-between h-full">
                     <div className="space-y-2.5">
-                      <div className="font-bold text-xs sm:text-sm text-[var(--text-main)] leading-relaxed">
+                      <div className="font-bold text-xs sm:text-[0.85rem] text-[var(--text-main)] leading-relaxed">
                         {card.meaning}
                       </div>
-                      <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-slate-200 dark:border-slate-800 text-xs text-[var(--color-primary)] font-semibold italic">
-                        “{card.example}”
+                      <div className="p-3 rounded-xl bg-[var(--bg-surface)] border border-slate-200 dark:border-slate-800 shadow-2xs">
+                        <span className="font-mono text-[0.62rem] font-black text-[var(--color-primary)] uppercase tracking-wider block mb-1">
+                          ⚡ IN CONVERSATION:
+                        </span>
+                        <div className="font-hand text-base sm:text-lg text-[var(--color-primary)] font-bold leading-snug">
+                          “{card.example}”
+                        </div>
                       </div>
                     </div>
 
-                    <div className="border-t border-slate-200 dark:border-slate-800 pt-2 flex items-center justify-between text-[0.68rem] font-mono text-[var(--text-muted)]">
-                      <span>{card.origin}</span>
-                      <span className="font-bold text-[var(--color-primary)] flex items-center gap-1">
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-2.5 mt-auto flex items-center justify-between gap-2 text-[0.7rem] font-mono">
+                      <span className="text-[var(--text-muted)] truncate max-w-[160px] sm:max-w-[180px]" title={card.origin}>
+                        {card.origin}
+                      </span>
+                      <span className="font-bold text-[var(--color-primary)] flex items-center gap-1 flex-shrink-0 hover:underline cursor-pointer">
                         <RotateCw className="w-3 h-3" />
                         <span>Flip Back</span>
                       </span>

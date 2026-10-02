@@ -1,4 +1,4 @@
-export type ThemePalette = 'pop' | 'cyber' | 'ember';
+export type ThemePalette = 'notebook' | 'pop' | 'cyber' | 'ember';
 
 export interface SessionConfig {
   id: 'saturday' | 'tuesday';

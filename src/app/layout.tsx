@@ -4,6 +4,7 @@ import { AppProvider } from '@/context/AppContext';
 import BookingModal from '@/components/BookingModal';
 import UserControlsModal from '@/components/UserControlsModal';
 import AdminControlsModal from '@/components/AdminControlsModal';
+import MemberAuthModal from '@/components/MemberAuthModal';
 import EasterEggsModal from '@/components/EasterEggsModal';
 import LofiPlayer from '@/components/LofiPlayer';
 
@@ -12,13 +13,20 @@ export const metadata: Metadata = {
   title: 'TalkLab 2.0 — The English Conversation Club You Actually Want to Join',
   description: "TalkLab is Tripoli's modern, gamified English conversation club for young minds. Interactive debates, taboo arcade, real-time 30 LYD seat booking, and chill vibes.",
   icons: {
-    icon: '/assets/logo-cream.png',
-    apple: '/assets/logo-cream.png'
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/assets/logo-blue.png', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' }
+    ],
+    apple: [
+      { url: '/assets/logo-blue.png', sizes: '180x180', type: 'image/png' }
+    ],
+    shortcut: '/favicon.ico'
   },
   openGraph: {
     title: 'TalkLab 2.0 — The English Conversation Club You Actually Want to Join',
     description: "Tripoli's weekly English conversation club at People & Spaces. 30 LYD flat fee, zero boring grammar, 100% interactive fun.",
-    images: [{ url: '/assets/logo-cream.png', width: 512, height: 512, alt: 'TalkLab Logo' }]
+    images: [{ url: '/assets/logo-blue.png', width: 1024, height: 1024, alt: 'TalkLab Logo' }]
   }
 };
 
@@ -35,12 +43,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-palette="pop" dir="ltr" className="scroll-smooth">
+    <html lang="en" data-palette="notebook" dir="ltr" className="scroll-smooth">
       <body className="antialiased min-h-screen flex flex-col">
         <AppProvider>
           {children}
           <BookingModal />
           <UserControlsModal />
+          <MemberAuthModal />
           <AdminControlsModal />
           <EasterEggsModal />
           <LofiPlayer />

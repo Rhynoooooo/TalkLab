@@ -1,54 +1,38 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useApp } from '@/context/AppContext';
 import { DEFAULT_POLL_OPTIONS } from '@/lib/constants';
-import { PollOption } from '@/lib/types';
-import { SoundFX } from '@/lib/soundFx';
-import { Vote, CheckCircle2, ShieldCheck, BarChart3 } from 'lucide-react';
-
-const STORAGE_KEY_VOTES = 'talklab_poll_votes_v2';
-const STORAGE_KEY_USER_PICK = 'talklab_poll_user_voted_id_v2';
+import { Vote, CheckCircle2, ShieldCheck, BarChart3, AlertCircle } from 'lucide-react';
 
 export default function CommunityPoll() {
-  const [options, setOptions] = useState<PollOption[]>(DEFAULT_POLL_OPTIONS);
-  const [userVotedId, setUserVotedId] = useState<number | null>(null);
+  const { pollState, userVotedPollId, votePoll } = useApp();
+  const [votingId, setVotingId] = useState<number | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
+  // Fallback to DEFAULT_POLL_OPTIONS if pollState is still initializing
+  const options = pollState?.options || DEFAULT_POLL_OPTIONS;
+  const title = pollState?.title || "Vote On Next Weekend's Debate";
+  const subtitle =
+    pollState?.subtitle ||
+    "At TalkLab, our community decides what hits the roundtable floor. Cast your live vote below to shape Saturday's headline topic!";
+  const isActive = pollState?.isActive !== false;
+  const totalVotes = pollState?.totalVotes ?? options.reduce((acc, o) => acc + o.votes, 0);
 
-    try {
-      const savedVotes = localStorage.getItem(STORAGE_KEY_VOTES);
-      if (savedVotes) {
-        const parsed = JSON.parse(savedVotes);
-        if (Array.isArray(parsed) && parsed.length === DEFAULT_POLL_OPTIONS.length) {
-          setOptions(parsed);
-        }
-      }
-
-      const savedPick = localStorage.getItem(STORAGE_KEY_USER_PICK);
-      if (savedPick) {
-        setUserVotedId(parseInt(savedPick, 10));
-      }
-    } catch {
-      // Ignore parse errors
-    }
-  }, []);
-
-  const totalVotes = options.reduce((acc, o) => acc + o.votes, 0);
-
-  const handleVote = (id: number) => {
-    if (userVotedId !== null) {
-      SoundFX.playBuzzer();
+  const handleVote = async (id: number) => {
+    if (userVotedPollId !== null || !isActive || votingId !== null) {
       return;
     }
 
-    SoundFX.playPop(620);
-    const updated = options.map(opt => (opt.id === id ? { ...opt, votes: opt.votes + 1 } : opt));
-    setOptions(updated);
-    setUserVotedId(id);
+    setVotingId(id);
+    setErrorMessage(null);
 
-    localStorage.setItem(STORAGE_KEY_VOTES, JSON.stringify(updated));
-    localStorage.setItem(STORAGE_KEY_USER_PICK, String(id));
+    const result = await votePoll(id);
+    setVotingId(null);
+
+    if (!result.success) {
+      setErrorMessage(result.error || 'Failed to submit vote');
+    }
   };
 
   return (
@@ -60,44 +44,60 @@ export default function CommunityPoll() {
             <span>Community Voice</span>
           </span>
           <h2 className="font-['Outfit'] font-black text-3xl sm:text-4xl lg:text-5xl text-[var(--text-main)] tracking-tight">
-            Vote On Next Weekend&apos;s Debate
+            {title}
           </h2>
           <p className="text-base text-[var(--text-muted)] max-w-xl mx-auto leading-relaxed">
-            At TalkLab, our community decides what hits the roundtable floor. Cast your live vote below to shape Saturday&apos;s headline topic!
+            {subtitle}
           </p>
         </div>
 
         <div className="pop-card p-6 sm:p-10 bg-[var(--bg-surface)] space-y-6">
           <div className="flex items-center justify-between border-b-2 border-slate-200 dark:border-slate-800 pb-4">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse" />
-              <span className="pop-badge coral text-xs font-bold">Active Live Poll</span>
+              <span
+                className={`w-2.5 h-2.5 rounded-full ${
+                  isActive ? 'bg-rose-500 animate-pulse' : 'bg-slate-400'
+                }`}
+              />
+              <span className={`pop-badge ${isActive ? 'coral' : 'outline'} text-xs font-bold`}>
+                {isActive ? 'Active Live Poll' : 'Poll Closed • Final Results'}
+              </span>
             </div>
             <span className="font-mono text-xs sm:text-sm font-black text-[var(--text-muted)] flex items-center gap-1.5">
               <BarChart3 className="w-4 h-4 text-[var(--color-primary)]" />
-              <span>{totalVotes} Total Votes</span>
+              <span>{totalVotes} Total Vote{totalVotes === 1 ? '' : 's'}</span>
             </span>
           </div>
+
+          {errorMessage && (
+            <div className="p-3 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-300 dark:border-red-800 text-xs font-bold text-red-600 dark:text-red-300 flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
+              <span>{errorMessage}</span>
+            </div>
+          )}
 
           <div className="space-y-3.5">
             {options.map(opt => {
               const pct = totalVotes > 0 ? Math.round((opt.votes / totalVotes) * 100) : 0;
-              const isSelected = userVotedId === opt.id;
-              const hasVoted = userVotedId !== null;
+              const isSelected = userVotedPollId === opt.id;
+              const hasVoted = userVotedPollId !== null;
+              const canClick = isActive && !hasVoted && votingId === null;
 
               return (
                 <div
                   key={opt.id}
-                  onClick={() => !hasVoted && handleVote(opt.id)}
+                  onClick={() => canClick && handleVote(opt.id)}
                   className={`relative overflow-hidden p-4 sm:p-5 rounded-2xl border-2 transition-all select-none ${
-                    hasVoted ? 'cursor-default' : 'cursor-pointer hover:border-[var(--color-primary)] hover:scale-[1.01]'
+                    canClick
+                      ? 'cursor-pointer hover:border-[var(--color-primary)] hover:scale-[1.01]'
+                      : 'cursor-default'
                   } ${
                     isSelected
                       ? 'border-[var(--color-primary)] shadow-[3px_3px_0px_var(--shadow-color)] bg-[var(--bg-surface)]'
                       : 'border-slate-300 dark:border-slate-700 bg-[var(--bg-surface-elevated)]'
                   }`}
                   role="button"
-                  tabIndex={0}
+                  tabIndex={canClick ? 0 : -1}
                   aria-pressed={isSelected}
                 >
                   {/* Background Progress Fill */}
@@ -113,11 +113,13 @@ export default function CommunityPoll() {
                   {/* Foreground Content */}
                   <div className="relative z-10 flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
-                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-                        isSelected
-                          ? 'border-[var(--color-primary)] bg-[var(--color-primary)] text-white'
-                          : 'border-slate-400 bg-white dark:bg-slate-900'
-                      }`}>
+                      <div
+                        className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                          isSelected
+                            ? 'border-[var(--color-primary)] bg-[var(--color-primary)] text-white'
+                            : 'border-slate-400 bg-white dark:bg-slate-900'
+                        }`}
+                      >
                         {isSelected && <span className="text-xs font-black">✓</span>}
                       </div>
                       <span
@@ -136,7 +138,10 @@ export default function CommunityPoll() {
                         </span>
                       )}
                       <div className="font-mono text-base sm:text-lg font-black text-[var(--color-primary)]">
-                        {pct}% <span className="text-xs text-[var(--text-muted)] font-normal font-sans">({opt.votes})</span>
+                        {pct}%{' '}
+                        <span className="text-xs text-[var(--text-muted)] font-normal font-sans">
+                          ({opt.votes})
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -146,10 +151,14 @@ export default function CommunityPoll() {
           </div>
 
           {/* Status Banner */}
-          {userVotedId !== null ? (
+          {userVotedPollId !== null ? (
             <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border-2 border-emerald-400 text-emerald-800 dark:text-emerald-200 text-xs sm:text-sm font-bold text-center flex items-center justify-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
               <span>Your vote is confirmed! You helped decide this weekend&apos;s Oxford debate topic.</span>
+            </div>
+          ) : !isActive ? (
+            <div className="text-center font-mono text-xs text-[var(--text-muted)] flex items-center justify-center gap-1.5">
+              <span>Voting for this topic cycle is closed by the moderator. Final counts are displayed above.</span>
             </div>
           ) : (
             <div className="text-center font-mono text-xs text-[var(--text-muted)] flex items-center justify-center gap-1.5">

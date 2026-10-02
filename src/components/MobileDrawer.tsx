@@ -11,9 +11,10 @@ export default function MobileDrawer({ isOpen, onClose }: { isOpen: boolean; onC
     soundMuted,
     toggleSound,
     openBooking,
-    openUserDashboard,
+    openMemberModal,
     openAdminModal,
-    userBookings
+    userBookings,
+    currentUser
   } = useApp();
 
   if (!isOpen) return null;
@@ -49,20 +50,24 @@ export default function MobileDrawer({ isOpen, onClose }: { isOpen: boolean; onC
               type="button"
               onClick={() => {
                 onClose();
-                openUserDashboard();
+                openMemberModal();
               }}
               className="p-3.5 rounded-2xl bg-[var(--bg-canvas)] border-2 border-slate-300 dark:border-slate-700 text-left space-y-1 hover:border-[var(--color-primary)] transition-all cursor-pointer"
             >
               <div className="flex items-center justify-between">
                 <User className="w-4 h-4 text-[var(--color-primary)]" />
-                {userBookings.length > 0 && (
+                {currentUser?.role === 'member' ? (
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                ) : userBookings.length > 0 ? (
                   <span className="w-4 h-4 rounded-full bg-[var(--color-primary)] text-white text-[0.6rem] font-black flex items-center justify-center">
                     {userBookings.length}
                   </span>
-                )}
+                ) : null}
               </div>
-              <strong className="block text-xs font-['Outfit'] font-black text-[var(--text-main)]">My Passes</strong>
-              <span className="text-[0.62rem] text-[var(--text-muted)] block">Wallet &amp; Stats</span>
+              <strong className="block text-xs font-['Outfit'] font-black text-[var(--text-main)]">
+                {currentUser?.role === 'member' ? 'My Boarding Pass' : 'My Passes'}
+              </strong>
+              <span className="text-[0.62rem] text-[var(--text-muted)] block">WhatsApp Verified</span>
             </button>
 
             <button
@@ -75,7 +80,7 @@ export default function MobileDrawer({ isOpen, onClose }: { isOpen: boolean; onC
             >
               <Shield className="w-4 h-4 text-amber-500" />
               <strong className="block text-xs font-['Outfit'] font-black text-[var(--text-main)]">Admin Hub</strong>
-              <span className="text-[0.62rem] text-[var(--text-muted)] block">Facilitator PIN</span>
+              <span className="text-[0.62rem] text-[var(--text-muted)] block">Facilitator Access</span>
             </button>
           </div>
 
@@ -85,6 +90,25 @@ export default function MobileDrawer({ isOpen, onClose }: { isOpen: boolean; onC
               🎨 Choose Atmosphere
             </div>
             <div className="grid grid-cols-1 gap-2">
+              <button
+                type="button"
+                onClick={() => setTheme('notebook')}
+                className={`flex items-center justify-between p-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                  theme === 'notebook'
+                    ? 'bg-[#1D4ED8] text-white border-[#1D4ED8] shadow-sm'
+                    : 'bg-[var(--bg-canvas)] text-[var(--text-main)] border-slate-300 dark:border-slate-700'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <span className="text-xl">📓</span>
+                  <div>
+                    <div className="font-extrabold text-sm">Notebook Journal</div>
+                    <div className="text-[0.68rem] opacity-80">Field Notes &amp; Fountain Ink</div>
+                  </div>
+                </div>
+                {theme === 'notebook' && <span className="font-bold">✓</span>}
+              </button>
+
               <button
                 type="button"
                 onClick={() => setTheme('pop')}

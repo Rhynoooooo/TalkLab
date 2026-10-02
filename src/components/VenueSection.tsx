@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useApp } from '@/context/AppContext';
-import { Coffee, Zap, Wifi, MonitorPlay, Armchair, Car, Phone, Navigation, MapPin, Building, ShieldCheck } from 'lucide-react';
+import { Coffee, Zap, Wifi, MonitorPlay, Armchair, Car, Phone, Navigation, Building, ShieldCheck } from 'lucide-react';
 
 export default function VenueSection() {
   const { themeConfig } = useApp();
@@ -13,15 +13,23 @@ export default function VenueSection() {
       <div className="tl-container">
         {/* Section Header */}
         <div className="text-center space-y-4 mb-12 max-w-2xl mx-auto">
-          <span className="pop-badge terracotta inline-flex items-center gap-1.5">
-            <Building className="w-3.5 h-3.5" />
-            <span>Official Host Venue</span>
-          </span>
+          <div className="flex items-center justify-center gap-2 flex-wrap">
+            <span className="pop-badge terracotta inline-flex items-center gap-1.5">
+              <Building className="w-3.5 h-3.5" />
+              <span>Official Host Venue</span>
+            </span>
+            <span className="ink-stamp text-xs py-0.5">
+              ★ VENUE SCRAPBOOK • TRIPOLI
+            </span>
+          </div>
           <h2 className="font-['Outfit'] font-black text-3xl sm:text-4xl lg:text-5xl text-[var(--text-main)] tracking-tight">
             Where TalkLab Lives — <span className="font-['Cairo']">مركز سفراء العلم</span>
           </h2>
           <p className="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed">
             Every week, TalkLab takes over People &amp; Spaces inside <strong>مركز سفراء العلم للتدريب والتطوير</strong> (Sofaraa Al-Elm Center) — Tripoli&apos;s premier creative learning &amp; coworking hub in Hay Al-Andalus.
+          </p>
+          <p className="font-hand text-xl text-[var(--color-primary)] font-bold -rotate-1">
+            ✎ Field photographs from our Hay Al-Andalus boardroom &amp; lounge!
           </p>
         </div>
 
@@ -101,7 +109,7 @@ export default function VenueSection() {
                 <span>📘 Facebook Page</span>
               </a>
               <a
-                href="https://maps.google.com/?q=People+%26+Spaces+Tripoli"
+                href="https://maps.google.com/?q=32.8735292,13.1321153"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="pop-btn pop-btn-outline pop-btn-sm"
@@ -115,7 +123,8 @@ export default function VenueSection() {
 
         {/* 4 Authentic Venue Photos */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
-          <div className="pop-card overflow-hidden group">
+          <div className="pop-card overflow-hidden group relative">
+            <div className="washi-tape washi-tape-yellow -top-3 left-6 w-24 -rotate-3 z-20" />
             <div className="relative h-64 sm:h-72 w-full">
               <Image
                 src="/assets/talklab-session-discussion.jpg"
@@ -124,15 +133,19 @@ export default function VenueSection() {
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent flex flex-col justify-end p-4">
                 <span className="font-mono text-xs font-bold text-white flex items-center gap-1.5">
                   🗣️ Live Conversation Session • Hay Al-Andalus Hub
+                </span>
+                <span className="font-hand text-base sm:text-lg text-amber-300 font-bold -rotate-1 mt-0.5">
+                  “The Oxford Fishbowl in action — passionate, spontaneous &amp; lively!”
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="pop-card overflow-hidden group">
+          <div className="pop-card overflow-hidden group relative">
+            <div className="washi-tape washi-tape-pink -top-3 right-6 w-24 rotate-2 z-20" />
             <div className="relative h-64 sm:h-72 w-full">
               <Image
                 src="/assets/talklab-session-screens.png"
@@ -141,15 +154,19 @@ export default function VenueSection() {
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent flex flex-col justify-end p-4">
                 <span className="font-mono text-xs font-bold text-white flex items-center gap-1.5">
                   📺 Dual-Display Conference Stage &amp; Boardroom
+                </span>
+                <span className="font-hand text-base sm:text-lg text-amber-300 font-bold rotate-1 mt-0.5">
+                  “All 25 seats have crystal clear sightlines to the stage display.”
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="pop-card overflow-hidden group">
+          <div className="pop-card overflow-hidden group relative">
+            <div className="washi-tape washi-tape-cyan -top-3 left-8 w-24 rotate-3 z-20" />
             <div className="relative h-64 sm:h-72 w-full">
               <Image
                 src="/assets/venue-breathe-wall.png"
@@ -158,15 +175,19 @@ export default function VenueSection() {
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent flex flex-col justify-end p-4">
                 <span className="font-mono text-xs font-bold text-white flex items-center gap-1.5">
                   ✨ &quot;Space to Breathe, Learn &amp; Create&quot; Lounge Wall
+                </span>
+                <span className="font-hand text-base sm:text-lg text-amber-300 font-bold -rotate-1 mt-0.5">
+                  “The creative atmosphere where ideas and friendships ignite!”
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="pop-card overflow-hidden group">
+          <div className="pop-card overflow-hidden group relative">
+            <div className="washi-tape washi-tape-yellow -top-3 right-8 w-24 -rotate-2 z-20" />
             <div className="relative h-64 sm:h-72 w-full">
               <Image
                 src="/assets/venue-screen-table.png"
@@ -175,9 +196,12 @@ export default function VenueSection() {
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent flex flex-col justify-end p-4">
                 <span className="font-mono text-xs font-bold text-white flex items-center gap-1.5">
                   🏢 People &amp; Spaces Training Stage &amp; Round Table
+                </span>
+                <span className="font-hand text-base sm:text-lg text-amber-300 font-bold rotate-1 mt-0.5">
+                  “Executive chairs &amp; studio-quality conference acoustic design.”
                 </span>
               </div>
             </div>
@@ -194,9 +218,15 @@ export default function VenueSection() {
               <h3 className="font-['Cairo'] font-black text-2xl sm:text-3xl text-[var(--text-main)] mt-1">
                 مركز سفراء العلم للتدريب والتطوير
               </h3>
-              <p className="font-mono text-xs sm:text-sm font-bold text-[var(--text-muted)] mt-0.5">
-                حي الأندلس، شارع البريد — طرابلس، ليبيا 🇱🇾
-              </p>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-base flex-shrink-0">📍</span>
+                <span className="font-['Cairo'] text-xs sm:text-sm font-bold text-[var(--text-muted)]" dir="rtl">
+                  حي الأندلس، شارع البريد — طرابلس، ليبيا
+                </span>
+                <span className="font-mono text-xs font-bold text-[var(--color-primary)] px-2 py-0.5 rounded-md bg-[var(--bg-canvas)] border border-[var(--border-color)]">
+                  📍 Hay Al-Andalus • Tripoli
+                </span>
+              </div>
             </div>
 
             {/* 6 Amenities Grid */}
@@ -240,7 +270,7 @@ export default function VenueSection() {
 
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
-                href="https://maps.google.com/?q=People+%26+Spaces+Tripoli"
+                href="https://maps.google.com/?q=32.8735292,13.1321153"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="pop-btn pop-btn-gold pop-btn-md btn-shimmer"
@@ -258,15 +288,30 @@ export default function VenueSection() {
             </div>
           </div>
 
-          {/* Right Map Embed */}
+          {/* Right Map Embed / Interactive Location Hub */}
           <div className="lg:col-span-5">
-            <div className="rounded-2xl overflow-hidden border-2 border-[var(--border-color)] shadow-[5px_5px_0px_var(--shadow-color)] h-[320px]">
+            <div className="rounded-2xl overflow-hidden border-2 border-[var(--border-color)] shadow-[5px_5px_0px_var(--shadow-color)] h-[320px] relative bg-[var(--bg-canvas)] flex flex-col">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3348.56!2d13.145!3d32.885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13a8edb16770518d%3A0xac3648e0d6923b2e!2z2YXYsdmD2LIg2LPZgdix2KfYoSDYp9mE2LnZhNmF!5e0!3m2!1sar!2sly!4v1710000000000!5m2!1sar!2sly"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=13.1241%2C32.8685%2C13.1401%2C32.8785&layer=mapnik&marker=32.87353%2C13.13212"
                 className="w-full h-full border-0"
                 loading="lazy"
-                title="Google Maps Location for مركز سفراء العلم"
+                title="Real Location Map of مركز سفراء العلم People & Spaces Tripoli"
               />
+              <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[var(--bg-surface)]/95 backdrop-blur-md p-2.5 rounded-xl border border-[var(--border-color)] flex items-center justify-between shadow-md">
+                <div className="text-[0.68rem] font-mono leading-tight">
+                  <strong className="text-[var(--text-main)] block font-bold">People &amp; Spaces Hub</strong>
+                  <span className="text-[var(--text-muted)]">Hay Al-Andalus • Tripoli</span>
+                </div>
+                <a
+                  href="https://maps.google.com/?q=32.8735292,13.1321153"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pop-btn pop-btn-primary pop-btn-sm text-[0.68rem] py-1 px-2.5 flex items-center gap-1"
+                >
+                  <Navigation className="w-3 h-3" />
+                  <span>Open Maps</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>

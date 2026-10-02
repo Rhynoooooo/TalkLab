@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useApp } from '@/context/AppContext';
 import { QUIZ_QUESTIONS, PERSONAS } from '@/lib/constants';
 import { SoundFX } from '@/lib/soundFx';
-import { Sparkles, RotateCcw, CheckCircle, ArrowRight } from 'lucide-react';
+import { Sparkles, RotateCcw, ArrowRight } from 'lucide-react';
 
 export default function VibeQuiz() {
   const { openBooking, fireConfetti } = useApp();

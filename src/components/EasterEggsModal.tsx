@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useApp } from '@/context/AppContext';
-import { SoundFX } from '@/lib/soundFx';
 import { X } from 'lucide-react';
 
 const KONAMI_CODE = [
